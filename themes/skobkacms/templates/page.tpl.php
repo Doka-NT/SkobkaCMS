@@ -11,7 +11,7 @@
         <div class="page">
             <div class="header">
                 <div class="header1">
-                    <a href="/" id="logo"><img src="/themes/skobkacms2/images/logo.png" alt="SkobkaCMS"/></a>
+                    <a href="/" id="logo"><img src="/themes/skobkacms/images/logo.png" alt="SkobkaCMS"/></a>
                     <div class="inner"><?= $top; ?></div>
                 </div>
                 <?if($user1):?>
