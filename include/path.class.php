@@ -122,9 +122,13 @@ class Path {
     }
 
     public static function DeleteAlias($path, $is_alias = false) {
-        global $pdo;
-        if (!$is_alias)
+        global $pdo,$alias_table,$path_table;
+        unset($path_table[$path]);
+        unset($alias_table[$path]);
+        if (!$is_alias){
             return $pdo->query("DELETE FROM url_alias WHERE path LIKE ?", array($path));
+	}
+	
         return $pdo->query("DELETE FROM url_alias WHERE alias LIKE ?", array($path));
     }
 

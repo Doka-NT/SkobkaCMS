@@ -38,11 +38,16 @@ class Editor {
             case 'php':
                 $js_mode = 'application/x-httpd-php';
                 break;
+            case 'css':
+                $js_mode = 'text/css';
+                break;
                 
         }
         $types = array(
             'php','javascript','mysql','htmlmixed','xml','clike'
         );
+        if(file_exists($mode_file = Module::GetPath('editor') . DS . 'codemirror/mode/'.$mode . DS . $mode . '.js'))
+            Theme::AddJs ($mode_file);
         foreach($types as $type)
             Theme::AddJs(Module::GetPath('editor') . DS . 'codemirror/mode/'.$type . DS . $type . '.js' );
         

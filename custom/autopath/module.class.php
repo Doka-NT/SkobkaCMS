@@ -60,7 +60,7 @@ class Autopath {
 		$alias = $_POST['autoalias'] == 'on'?self::AutoAlias($_POST['content_name'],$oContent->type):$_POST['alias'];
 		if(!$alias)
 			return;
-		$pdo->query("DELETE FROM url_alias WHERE path LIKE ?",array('content/'.$id));
+                Path::DeleteAlias($_POST['alias']);
 		
 		//Check for existing alias
 		$alias = Path::PrepareAlias($alias);
