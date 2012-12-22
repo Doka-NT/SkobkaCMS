@@ -1,0 +1,14 @@
+.comment-reply {display:none;}
+.comment-info {position: relative;margin-bottom: 5px;padding: 3px;}
+.comment-links {position: absolute;right: 0;top: 0;display:none;}
+.comment-links a {font-size:11px;}
+.comment .comment {margin-left: 25px;}
+.comment {margin-top: 25px;border-top: 1px solid #CCC;}
+.comment-content {padding: 5px;font-size: 12px;}
+.comment-info, .comment-info > * {font-size: 11px;}
+.comment-links {position: absolute;right: 10px;top: 3px;}
+.comment .comment:last-child {border-bottom: none;}
+.comment-form-inner {padding: 10px;background: #EEE;margin-top: 30px;}
+.comment-false {margin-top:20px;}
+.comments-title {margin-top:40px;}
+.comments-main-wrapper {overflow:hidden;}

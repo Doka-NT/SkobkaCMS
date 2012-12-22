@@ -1,0 +1,121 @@
+.message {padding:10px;}
+.message.notice {background-color: #DFF0D8;}
+.message.error {background-color: #F2DEDE;}
+
+.page {margin: 0 auto;padding:25px;background:#fff;}
+.sidebar {width:200px;float:left;}
+.page-inner {margin-left:250px;}
+.page-inner.no-sidebar {margin:0;}
+
+.form-actions {text-align: right;}
+#block-list-table input, #block-list-table textarea, #block-list-table select {
+	border-radius:0;
+	padding:0;
+	font: 11px Arial;
+	color:#3f3f3f;
+	height:20px;
+	margin:0;
+	box-shadow:none;
+}
+#block-list-table textarea {width:100%;height:30px;}
+#block-list-table td {text-align:center;vertical-align:middle;padding:0 5px;}
+#add-menu-item .form-actions input {margin:0 5px 0 0;}
+ul.menu li ul {margin-left: 10px;}
+.block-control a {
+color: white!important;
+font-size:11px;
+text-shadow: none;
+}
+.block-control {
+float:right;
+font-size: 10px;
+background: #7C0B1F;
+opacity: 1;
+padding: 2px 20px;
+display:none;
+opacity: 0.8;
+}
+
+/*#edit-block-form .form-textarea, #edit-block-form .form-text,
+#add-block-form .form-textarea, #add-block-form .form-text,#content-add-form .form-text, #content-add-form .form-textarea {width:98%;}*/
+#edit-block-form .form-textarea, #add-block-form .form-textarea {height:200px;}
+
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input
+{width:100%;margin:0;border-radius:0;height:20px;font:12px Arial;box-shadow:none;padding:0;}
+textarea {height:100px;}
+body .el-rte .toolbar ul li, body .el-rte .toolbar ul li.hover {border:none;cursor:pointer;}
+ body .el-rte .toolbar ul li:hover {outline: 1px dotted #AFAFAF;}
+
+ .region-view-wrapper {
+     position:relative;
+background: rgba(255, 234, 234, 0.3);
+outline: 1px dotted red;
+display: block;
+min-height:20px;
+}
+.region-view-name {
+font-size: 12px;
+color: white;
+background: #EB0000;
+padding: 1px 5px;
+position: absolute;
+opacity: 0.6;
+text-shadow: none;
+}
+tr.success {color:#333;}
+div.autocomplete {
+background: white;
+border: 1px solid #AAA;
+border-top: 0;
+font-size:11px;
+color:#333;
+}
+div.autocomplete .selected {
+background: #DDECFF;
+}
+div.autocomplete div strong {font-weight:normal; color:red;}
+tr.ui-state-highlight {background:#FFE45C;}
+.ui-sortable-helper {background:#FFE45C;padding:2px;cursor:move;}
+.message .close {right: -7px;}
+
+div.CodeMirror {border: 1px solid #EEE;}
+.control-links {
+z-index: 5;
+opacity: 0.8;
+float:right;
+padding: 2px 20px;
+background: #7C0B1F;
+font-size: 11px;
+display:none;
+}
+.control-links a, .control-links a:hover {color:#fff;font-size:11px;}
+.user-auth-button {margin: 10px 0;}
+input[type="checkbox"] {
+margin-top: -2px;
+}
+.rule-fieldset label {
+margin-left: 50px;
+}
+input[type="radio"] {
+margin-top: -2px;
+margin-right: 5px;
+}
+ul.marked, ul.marked ul {
+list-style-type: disc;
+}
+ol.numbered, ol.numbered ol {
+list-style-type: decimal;
+}
+.module-group table tbody td:first-child {
+width: 150px;
+}
+.module-group table tbody td:nth-child(2) {
+width: 50px;
+text-align: center;
+}
+.module-group table tbody td:last-child {
+width: 100px;
+}
+.module-group h6 {
+font-size: 15px;
+}

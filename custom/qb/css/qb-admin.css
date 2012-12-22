@@ -1,0 +1,101 @@
+/* Columns 
+-------
+.col_33 | .col_33 | .col_33
+.clearfix
+-------
+.col_75 | .col_25
+.clearfix
+-------
+.col_66 | .col_33
+.clearfix
+-------
+.col_50 | .col_50
+.clearfix
+-------
+.col_100
+-------
+*/
+.col_25 {
+  width:23%;
+  margin:0 2% 0 0;
+  float:left;
+}
+.col_33 {
+  width:31%;
+  margin:0 2% 0 0;
+  float:left;
+}
+.col_50 {
+  width:48%;
+  margin:0 2% 0 0;
+  float:left;
+}
+.col_66 {
+  width:64%;
+  margin:0 2% 0 0;
+  float:left;
+}
+.col_75 {
+  width:73%;
+  margin:0 2% 0 0;
+  float:left;
+}
+.col_100 {
+  width:98%;
+  margin:0 2% 0 0;
+}
+
+.col_25.wrap { width:25%; margin:0;}
+.col_33.wrap { width:33%; margin:0;}
+.col_50.wrap { width:50%; margin:0;}
+.col_66.wrap { width:66%; margin:0;}
+.col_75.wrap { width:75%; margin:0;}
+.col_100.wrap { width:100%; margin:0;}
+/* End columns */
+#qb-add-form {
+overflow: hidden;
+width:1080px;
+background: #FFF;
+}
+#qb-fields {
+height: 400px;
+}
+#qb-clause {
+height: 373px;
+font-size: 12px;
+line-height: 150%;
+}
+.qb-clause-list .input-append * {
+height: 20px!important;
+padding: 0px 10px;
+}
+#qb-clause-fields {
+padding: 0;
+width: 180px;
+}
+#qb-placeholder-list {display:none;}
+#query {
+width: 98%;
+background: whiteSmoke;
+padding: 5px;
+margin: 0 auto;
+font-size: 12px;
+font-family: monospace;
+}
+#template {width:98%;margin: 0 auto; padding:5px;font:12px monospace;height: 200px;}
+.qb-database fieldset.col_25 {
+border: 1px solid #EEE;
+padding: 10px;
+height: 460px;
+overflow: auto;
+width: 225px;
+}
+
+#qb-export {height: 400px; padding: 10px;background: #f5f5f5;font:11px monospace;}
+.join {margin-bottom: 5px;}
+.joins-list-wrapper {clear: both;}
+.qb-database {
+max-width: none;
+width: 100%;
+min-width: 1080px;
+}

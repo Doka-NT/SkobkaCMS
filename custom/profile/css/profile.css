@@ -1,0 +1,56 @@
+.upload-area {
+background: #F3F3F3;
+padding: 30px 20px;
+border: 2px dashed #AAA;
+margin: 10px 0;
+position: relative;
+opacity: 0.8;
+transition: opacity 0.1s ease-in;
+-webkit-transition: opacity 0.1s ease-in;
+-moz-transition: opacity 0.1s ease-in;
+-o-transition: opacity 0.1s ease-in;
+-ms-transition: opacity 0.1s ease-in;
+cursor: pointer;
+}
+.upload-area:hover, .upload-area.hover {
+opacity: 1;
+}
+.upload-area input {
+position: absolute;
+left: 0;
+top: 0;
+right: 0;
+bottom: 0;
+cursor: pointer;
+opacity: 0.01;
+z-index: 2;
+padding: 16px;
+}
+.upload-bar .bar {text-align: left;text-indent: 5px;}
+.upload-area-inner {
+position: absolute;
+background: url(../images/upload-image.png) no-repeat 20px 7px;
+left: 0;
+right: 0;
+bottom: 0;
+top: 0;
+padding: 20px 100px;
+}
+#edit-user-form .input-medium, #edit-user-form .profile-birthday input, #edit-user-form .profile-other input {
+width: 32%;
+margin-bottom: 3px;
+}
+.profile-item {
+display: inline-block;
+width: 47%;
+margin: 5px 0;
+padding: 1%;
+overflow: hidden;
+border-bottom: 1px solid #AAA;
+}
+.pih {
+font-weight: bold;
+margin-right: 10px;
+}
+.user-picture {margin:10px 0;}
+#edit-user-form .profile .profile-other label + input {width:65%;}

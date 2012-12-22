@@ -1,0 +1,1 @@
+<?=Theme::Render('select','comment_types[]','Типы материалов, доступных для комментрирования',Content::GetTypes(),Variable::Get('comment_types',array()),array('multiple'=>'multiple','style'=>'height:100px'));?>

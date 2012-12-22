@@ -1,0 +1,1 @@
+<?=Theme::Render('input','text','blog_post_per_page','Публикаций на страницу',Variable::Get('blog_post_per_page',10));?>
