@@ -42,6 +42,12 @@ class DBPDO {
         $page = $_GET['page']?$_GET['page']:1;
         return $this->QueryLimit($sql,$args,($page - 1) * $per_page,$per_page);
     }
+
+    public function QueryRow($sql,$args){
+        global $pdo;
+        $q = $pdo->query($sql,$args);
+        return $pdo->fetch_object($q);
+    }
     
     public function fetch_object($state) {
         if (!$state)

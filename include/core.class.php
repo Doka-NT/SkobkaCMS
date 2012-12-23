@@ -152,4 +152,15 @@ class Core {
 		
 		exit(json_encode($data));
 	}
+        
+        public static function Off($message = ''){
+            exit($message);
+        }
+        
+        public static function Header($name,$value,$http_response_code = false){
+            $header = $name . ': ' .$value;
+            if(($name == 'Location') || ($name == 'location'))
+                $http_response_code = 301;
+            header($header, true, $http_response_code);
+        }
 }

@@ -87,7 +87,9 @@ class Path {
     }
 
     public static function GetByAlias($path) {
-        global $pdo;
+        global $pdo,$alias_table;
+        if($alias_table[$path])
+            return $alias_table[$path]->path;
         $rec = $pdo->fetch_object($pdo->query("SELECT * FROM url_alias WHERE alias LIKE ?", array($path)));
         if ($rec->path)
             return $rec->path;
@@ -133,12 +135,15 @@ class Path {
     }
 
     public static function AddAlias($path, $alias) {
-        global $pdo;
+        global $pdo,$path_table,$alias_table;
         $alias = self::PrepareAlias($alias);
-        $pdo->insert('url_alias', array(
+        $pdo->insert('url_alias', $data = array(
             'path' => $path,
             'alias' => $alias,
         ));
+        $data['uaid'] = $pdo->lastInsertId();
+        $path_table[$path] = (object)$data;
+        $alias_table[$alias] = (object)$data;
         return $alias;
     }
     

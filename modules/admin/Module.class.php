@@ -47,7 +47,7 @@ class Admin {
     }
 
     public function Rules() {
-        return array('Настройка сайта', 'Просмотр статистики выполнения');
+        return array('Настройка сайта', 'Просмотр статистики выполнения','Загружать файлы');
     }
 
     public static function EventLoaded() {
@@ -57,6 +57,7 @@ class Admin {
         Theme::AddCss(Theme::GetPath('default') . DS . 'bootstrap/css/bootstrap.min.css');
         Theme::AddCss(Theme::GetPath('default') . DS . 'css/base.css');
         Theme::AddJs(Theme::GetPath('default') . DS . 'js/jquery-1.8.2.min.js');
+        Theme::AddJs(Theme::GetPath('default') . DS . 'js/jquery.cookie.js');
         Theme::AddJs(Theme::GetPath('default') . DS . 'bootstrap/js/bootstrap.min.js');
         Theme::AddJs(Theme::GetPath('default') . DS . 'js/main.js');
 
@@ -106,11 +107,18 @@ class Admin {
                 'rules' => array('Настройка сайта'),
                 'callback' => 'AdminPages::ModulesToggle',
             ),
+            'file_upload'=>array(
+                'type'  =>  'callback',
+                'file'  =>  'AdminPages',
+                'rules' =>  array('Загружать файлы'),
+                'callback'  =>  'AdminPages::FileUpload',
+            ),
         );
     }
 
     public function Theme() {
         $AdminTheme = Module::GetPath('admin') . '/AdminTheme.class.php';
+        $modulePath = Module::GetPath('admin') . DS . 'theme';
         return array(
             'dump' => array(
                 'type' => 'callback',
@@ -154,44 +162,54 @@ class Admin {
             ),
             'input' => array(
                 'type' => 'template',
-                'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'input.tpl.php',
+                'template' => $modulePath . DS . 'input.tpl.php',
                 'arguments' => array('type' => NULL, 'name' => NULL, 'label' => NULL, 'value' => NULL, 'attributes' => array()),
             ),
             'autocomplete' => array(
                 'type' => 'template',
-                'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'autocomplete.tpl.php',
+                'template' => $modulePath . DS . 'autocomplete.tpl.php',
                 'arguments' => array('name' => NULL, 'label' => NULL, 'callback' => NULL, 'value' => NULL, 'attributes' => array()),
             ),
             'form-actions' => array(
                 'type' => 'template',
-                'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'form-actions.tpl.php',
+                'template' => $modulePath . DS . 'form-actions.tpl.php',
                 'arguments' => array('buttons' => array()),
             ),
             'select' => array(
                 'type' => 'template',
-                'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'select.tpl.php',
+                'template' => $modulePath . DS . 'select.tpl.php',
                 'arguments' => array('name' => NULL, 'label' => NULL, 'options' => array(), 'value' => NULL, 'attributes' => array()),
             ),
             'radio' => array(
                 'type' => 'template',
-                'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'radio.tpl.php',
+                'template' => $modulePath . DS . 'radio.tpl.php',
                 'arguments' => array('name' => NULL, 'label' => NULL, 'options' => array(), 'value' => NULL, 'attributes' => array()),
             ),
             'block' => array(
                 'type' => 'template',
-                'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'block.tpl.php',
+                'template' => $modulePath . DS . 'block.tpl.php',
                 'arguments' => array('block' => NULL),
             ),
             'control-links' => array(
                 'type' => 'template',
-                'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'control-links.tpl.php',
+                'template' => $modulePath . DS . 'control-links.tpl.php',
                 'arguments' => array('aLinks' => array()),
             ),
             'checkbox' => array(
                 'type' => 'template',
-                'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'checkbox.tpl.php',
+                'template' => $modulePath . DS . 'checkbox.tpl.php',
                 'arguments' => array('name' => NULL, 'options' => array(), 'values' => array(), 'attributes' => array()),
-            )
+            ),
+            'file-upload' => array(
+                'type'  =>  'template',
+                'template'  =>  $modulePath . DS .'file-upload.tpl.php',
+                'arguments' =>  array('name'=>NULL, 'label'=>NULL,'value'=>NULL,'attributes'=>array()),
+            ),
+            'file-upload-item'=>array(
+                'type'=>'template',
+                'template'=> $modulePath . DS . 'file-upload-item.tpl.php',
+                'arguments'=>array('file'=>null),
+            ),
         );
     }
 

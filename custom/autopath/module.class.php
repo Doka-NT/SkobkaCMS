@@ -64,11 +64,11 @@ class Autopath {
 		
 		//Check for existing alias
 		$alias = Path::PrepareAlias($alias);
-		
-		$pdo->insert('url_alias',array(
+		Path::AddAlias('content/'.$id, $alias);
+		/*$pdo->insert('url_alias',array(
 			'path'=>'content/'.$id,
 			'alias'=>$alias,
-		));
+		));*/
 		$aResult['replace'] = Path::Url($alias);
 		Notice::Message('Псевдоним добавлен');			
 		

@@ -33,4 +33,12 @@ class Notice {
 		}
 		return $error . $message;
 	}
+        
+        public static function Dump(){
+            ob_start();
+            var_dump(func_get_args());
+            $out = ob_get_clean();
+            ob_end_clean();
+            Notice::Message('<pre>'.$out.'</pre>');
+        }
 }

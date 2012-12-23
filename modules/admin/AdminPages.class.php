@@ -124,4 +124,28 @@ class AdminPages {
         Event::Call('CacheDelete');
         Path::Back();
     }
+    
+    public static function FileUpload(){
+        $ext = $_SESSION['valid_extension'];
+        $ext = $ext?$ext:array('jpg','jpeg','gif','doc','png');
+        $input_name = $_POST['input_name'];
+        $files = File::SaveUpload($input_name);
+        
+        if($_SESSION['FILES'])
+            foreach($_SESSION['FILES'] as $file)
+                File::Delete ($file->filepath);
+        $_SESSION['FILES'] = $files;
+        
+        foreach($files as $index=>$file){
+            $f_ext = File::Ext($file->filepath);
+            if(in_array($f_ext, $ext))
+                $data .= Theme::Render ('file-upload-item',$file);
+            else{
+                File::Delete ($file->filepath);
+                unset($files[$index]);
+                Notice::Error('Файл '.$file->original_name.' не загружен т.к. имеет неверный формат');
+            }
+        }
+        Core::Json(array('status'=>1,'files'=>$files,'data'=>$data));
+    }
 }
