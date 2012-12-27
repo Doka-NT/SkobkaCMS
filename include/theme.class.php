@@ -116,8 +116,8 @@ class Theme {
                 $sFile = $web_root . $sFile;
             $out .= '<script type="text/javascript" src="' . $sFile . '"></script>';
         }
-        /*if ($compress)
-            return $out . Theme::PackJs();*/
+        /* if ($compress)
+          return $out . Theme::PackJs(); */
         if ($theme_info['js'])
             foreach ($theme_info['js'] as $sFile)
                 $out .= '<script type="text/javascript" src="' . $web_root . Theme::GetThemePath($theme) . DS . $sFile . '"></script>';
@@ -194,45 +194,53 @@ class Theme {
 
     /* PACK JS AND CSS FILES */
 
-    public static function Compress($buffer) {
-        /* Убираем комментарии */
-        $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
-        /* Убираем лишние пробелы и переносы */
-        $buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buffer);
-        return $buffer;
+    public static function CompressCss($buffer) {
+        Module::IncludeFile('admin', 'CssMin.class.php');
+        $oMin = new Minify_YUI_CssCompressor();
+        return $oMin->compress($buffer);
     }
 
     /* PACK CSS */
 
     public static function PackCss() {
         global $theme, $theme_info, $web_root, $module_css, $compress;
-        $out_file = STATIC_DIR . DS . 'styles.css';
-        if(!file_exists($out_file)){
+        $out_file_path = STATIC_DIR . DS . 'css' . DS;
+        $staticFileName = '';
         $module_css = array_unique($module_css);
-        foreach ($module_css as $sFile) {
-			$info = pathinfo($sFile);
-			$cssFile = file_get_contents($sFile);
-			//$cssFile = str_replace('url(..','url('.$web_root.$info['dirname'],$cssFile);
-			$cssFile = str_replace('url(../','url('.$web_root.$info['dirname'].'/../',$cssFile);	
-			$cssFile = str_replace('url("../','url("'.$web_root.$info['dirname'].'/../',$cssFile);
-			$cssFile = str_replace('url(\'../','url(\''.$web_root.$info['dirname'].'/../',$cssFile);
-			$out .= $cssFile;
-        }
-        if ($theme_info['css'])
-            foreach ($theme_info['css'] as $sFile){
-                $cssFile = file_get_contents( $sFile = Theme::GetThemePath($theme) . DS . $sFile);
-				$info = pathinfo($sFile);
-				$cssFile = str_replace('url(../','url('.$web_root.$info['dirname'].'/../',$cssFile);	
-				$cssFile = str_replace('url("../','url("'.$web_root.$info['dirname'].'/../',$cssFile);
-				$cssFile = str_replace('url(\'../','url(\''.$web_root.$info['dirname'].'/../',$cssFile);
-				$out .= $cssFile;
-			}
+        $theme_css = $theme_info['css']?$theme_info['css']:array();
+        
+        $staticFileName = implode("",$module_css) . implode("", $theme_css);
+        $staticFileName = $out_file_path . 'style-' . md5($staticFileName) . '.css';
+        if (!File::Exists($staticFileName)) {
+            foreach ($module_css as $sFile) {
+                $out .= self::_packCssPrepare($sFile);
+            }
+            
+            foreach ($theme_css as $sFile) {
+                $out .= self::_packCssPrepare($sFile, false);
+            }
 
-        $compressed = Theme::Compress($out);
+            $compressed = Theme::CompressCss($out);
+            File::CreateDir($out_file_path);
 
-        file_put_contents($out_file, $compressed);
+            file_put_contents($staticFileName, $compressed);
         }
-        return '<link rel="stylesheet" type="text/css" href="' . $web_root . $out_file . '" />';
+        Theme::AddJsSettings(array(
+            'stylesheet'=>$web_root . $staticFileName,
+        ));
+        return '<link rel="stylesheet" type="text/css" href="' . $web_root . $staticFileName . '" />';
+    }
+
+    public static function _packCssPrepare($sFile, $is_module = true) {
+        global $theme,$web_root;
+        $cssFile = $is_module?file_get_contents($sFile):file_get_contents($sFile = Theme::GetThemePath($theme) . DS . $sFile);
+        $info = pathinfo($sFile);
+        //$cssFile = str_replace('url(..','url('.$web_root.$info['dirname'],$cssFile);
+        $cssFile = str_replace('url(../', 'url(' . $web_root . $info['dirname'] . '/../', $cssFile);
+        $cssFile = str_replace('url("../', 'url("' . $web_root . $info['dirname'] . '/../', $cssFile);
+        $cssFile = str_replace('url(\'../', 'url(\'' . $web_root . $info['dirname'] . '/../', $cssFile);
+        
+        return $cssFile;
     }
 
     /* PACK JS */
@@ -240,16 +248,16 @@ class Theme {
     public static function PackJs() {
         global $theme, $theme_info, $web_root, $module_js, $compress;
         $module_js = array_unique($module_js);
-        foreach($module_js as $sFile){
-          $out .= '(function(){'.file_get_contents($sFile) . "})();\n\n";
-		} 
-		
+        foreach ($module_js as $sFile) {
+            $out .= '(function(){' . file_get_contents($sFile) . "})();\n\n";
+        }
+
         if ($theme_info['js'])
             foreach ($theme_info['js'] as $sFile)
-                $out .= '(function(){'.file_get_contents(Theme::GetThemePath($theme) . DS . $sFile) . "})();\n\n";
+                $out .= '(function(){' . file_get_contents(Theme::GetThemePath($theme) . DS . $sFile) . "})();\n\n";
         $out_file = STATIC_DIR . DS . 'scripts.js';
-        
-		//$compressed = Theme::Compress($out);
+
+        //$compressed = Theme::Compress($out);
         file_put_contents($out_file, $out);
         return '<script type="text/javascript" src="' . $web_root . $out_file . '"></script>';
     }
@@ -267,47 +275,47 @@ class Theme {
             $js_settings = implode(",", $js_settings);
         }
         return '<script type="text/javascript">
-				' . ($js_settings ? '$.extend(true,CMS.settings,' . $js_settings . ');' : '') . '
-				$(function(){CMS.settings.onload()});
+				' . ($js_settings ? 'jQuery.extend(true,CMS.settings,' . $js_settings . ');' : '') . '
+				jQuery(function(){CMS.settings.onload()});
 			</script>';
     }
-    
-    public static function Pager($sql,$args = array(),$limit = 20){
-        global $pdo,$web_root;
+
+    public static function Pager($sql, $args = array(), $limit = 20) {
+        global $pdo, $web_root;
         $path = Path::Get();
-        
+
         $pager_items = 5;
         $half = floor($pager_items / 2);
-        $total = $pdo->fetch_object($pdo->query("SELECT COUNT(*) as total FROM ($sql) as count_table",$args))->total;
+        $total = $pdo->fetch_object($pdo->query("SELECT COUNT(*) as total FROM ($sql) as count_table", $args))->total;
         $total_pages = ceil($total / $limit);
-        if($total <= $limit)
+        if ($total <= $limit)
             return;
-        
-        $page = (int)$_GET['page'];
-        $page = $page > $total_pages ?$total_pages:$page;
-        $page = $page < 1?1:$page;
+
+        $page = (int) $_GET['page'];
+        $page = $page > $total_pages ? $total_pages : $page;
+        $page = $page < 1 ? 1 : $page;
         //Правая часть
         $i = 0;
-        for($i = $page + 1; $i <= $page + 1 + $half; $i++)
-            if($i <= $total_pages)
-                $right .= '<li><a href="'.$web_root. $path.'?page='.$i.'">'.$i.'</a></li>';
-        if($i < $total_pages)
-            $right .= '<li><a href="'.$web_root. $path.'?page='.$total_pages.'">→</a></li>';
-            
+        for ($i = $page + 1; $i <= $page + 1 + $half; $i++)
+            if ($i <= $total_pages)
+                $right .= '<li><a href="' . $web_root . $path . '?page=' . $i . '">' . $i . '</a></li>';
+        if ($i < $total_pages)
+            $right .= '<li><a href="' . $web_root . $path . '?page=' . $total_pages . '">→</a></li>';
+
         //Левая часть
         $aLeft = array();
         $i = 0;
-        for($i = $page - 1; $i >= $page - $half - 1; $i--)
-            if($i >= 1)
-                $aLeft[] = '<li><a href="'.$web_root. $path.'?page='.$i.'">'.$i.'</a></li>';
-        if($i >= 1)
-            $left = '<li><a href="'.$web_root. $path.'">←</a></li>';
-        $left .= implode("",  array_reverse($aLeft));
-        
-        $li = $left . '<li class="active"><a href="'.$web_root . $path . '?page='.$page.'">'.$page.'</a></li>' . $right;
-       /* if($page + $half < $total_pages)
-            $li .= '<li><a href="'.$web_root. $path.'?page='.$total_pages.'">→</a></li>';*/
-        return '<div class="pagination pagination-centered"><ul>'.$li.'</ul></div>';
+        for ($i = $page - 1; $i >= $page - $half - 1; $i--)
+            if ($i >= 1)
+                $aLeft[] = '<li><a href="' . $web_root . $path . '?page=' . $i . '">' . $i . '</a></li>';
+        if ($i >= 1)
+            $left = '<li><a href="' . $web_root . $path . '">←</a></li>';
+        $left .= implode("", array_reverse($aLeft));
+
+        $li = $left . '<li class="active"><a href="' . $web_root . $path . '?page=' . $page . '">' . $page . '</a></li>' . $right;
+        /* if($page + $half < $total_pages)
+          $li .= '<li><a href="'.$web_root. $path.'?page='.$total_pages.'">→</a></li>'; */
+        return '<div class="pagination pagination-centered"><ul>' . $li . '</ul></div>';
     }
 
 }

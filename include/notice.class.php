@@ -36,7 +36,8 @@ class Notice {
         
         public static function Dump(){
             ob_start();
-            var_dump(func_get_args());
+            foreach(func_get_args() as $arg)
+                var_dump($arg);
             $out = ob_get_clean();
             ob_end_clean();
             Notice::Message('<pre>'.$out.'</pre>');

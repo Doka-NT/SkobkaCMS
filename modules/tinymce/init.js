@@ -14,7 +14,7 @@ tinyMCE.init({
     theme_advanced_toolbar_align : "left",
     theme_advanced_statusbar_location : "bottom",
     theme_advanced_resizing : true,
-    content_css : CMS.settings.web_root + "static/styles.css",
+    content_css : CMS.settings.stylesheet,
     file_browser_callback : 'elFinderBrowser',
     document_base_url:  '/',
     convert_urls : false

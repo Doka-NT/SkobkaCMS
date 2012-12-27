@@ -3,10 +3,15 @@
 class Admin {
 
     public function __construct() {
+        Module::IncludeFile('admin', 'AdminEvent.class.php');
+        
+        Event::Bind('Update','AdminEvent::EventUpdate');
+        
         Event::Bind('Loaded', 'Admin::EventLoaded');
         Event::Bind('PdoQuery', 'Admin::EventPdoQuery');
         Event::Bind('CacheDelete', 'Admin::EventCacheDelete');
         Event::Bind('FormLoad', 'Admin::EventFormLoad');
+        
     }
 
     public static function EventFormLoad(&$aForm) {
@@ -227,6 +232,8 @@ class Admin {
             return;
         global $side_menu;
         $item = '';
+        if(!is_array($side_menu))
+            return;
         foreach ($side_menu as $module => $aLinks) {
             $module_info = Module::GetInfo($module);
             $title = $module_info ? $module_info['name'] : $module;
@@ -275,6 +282,9 @@ class Admin {
     public static function EventCacheDelete() {
         global $pdo;
         $pdo->query('TRUNCATE forms;');
+        foreach(glob(STATIC_DIR . DS . 'css' . DS . '*') as $cssFile){
+            File::Delete($cssFile);
+        }
     }
 
 }
