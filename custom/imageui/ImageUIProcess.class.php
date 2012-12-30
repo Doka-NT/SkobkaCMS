@@ -23,6 +23,7 @@ class ImageUIProcess {
         $path = Path::Arg();
         unset($path[0], $path[1], $path[2]);
         $preset_id = Path::Arg(2);
+        
         $filepath = implode(DS, $path);
         $filename_new = Imageui::prepareFile($filepath);
         $dir_path = STATIC_DIR . DS . 'imageui' . DS . $preset_id . DS;
@@ -32,7 +33,12 @@ class ImageUIProcess {
         }
         if (File::Exists($filepath)) {
             $image = Image::Resize($filepath, 100);
-            Image::Crop($image, 100, 100);
+            $preset = Imageui::Load($preset_id); 
+            
+            ob_start();
+            eval('?>' . $preset->code);
+            ob_end_clean();
+            
             Image::Save($image, $dir_path . $filename_new);
             Core::Header('Location', Path::Url($dir_path . $filename_new),301);
             Core::Off();

@@ -22,18 +22,27 @@ class Imageui {
                 'file'=>'ImageUIPages',
                 'type'=>'callback',
             ),
-            'image'=>array(
+            /*'image'=>array(
                 'rules'=>array('Обычный доступ'),
                 'type'=>'callback',
                 'file'=>'ImageUIProcess',
                 'callback'=>'ImageUIProcess::Get'
-            ),
+            ),*/
             STATIC_DIR .'/imageui'=>array(
                 'callback'=>'ImageUIProcess::RewriteStatic',
                 'file'=>'ImageUIProcess',
                 'type'=>'callback',
             )
         );
+    }
+    
+    public static function Load($id){
+        global $pdo;
+        $preset = $pdo->QR("SELECT * FROM imageui WHERE id = ?",array($id));
+        if(!$preset)
+            return;
+        $preset->code = $pdo->unserialize($preset->code);
+        return $preset;
     }
     
     public static function PresetList(){

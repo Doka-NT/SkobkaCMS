@@ -6,6 +6,5 @@
             Theme::Render('link-confirm','admin/imageui/delete/'.$preset->id,'Удалить'),
         );
 ?>
-<?=  ImageUI::GetImage(1, 'themes/skobkacms/images/logo.png');?>
-<?=Theme::Render('table',$row);?>
+<?=Theme::Render('table',$row,array('id','Метка','Действия'));?>
 <?=Theme::Render('input','text','preset[title]','Название настройки',$title);?>

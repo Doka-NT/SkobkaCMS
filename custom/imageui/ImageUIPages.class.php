@@ -25,6 +25,31 @@ class ImageUIPages {
     }
     
     public static function EditPreset(){
-        
+        $preset = Imageui::Load(Path::Arg(3));
+        Theme::SetTitle($preset->title);
+        return Form::GetForm('ImageUIPages::PresetForm',$preset);
+    }
+    
+    public static function PresetForm(){
+        return array(
+            'id'=>'imageui-preset-form',
+            'type'=>'template',
+            'template'=>Module::GetPath('imageui') . DS . 'forms' . DS . 'imageui-preset-form.tpl.php',
+            'submit'=>array('ImageUIPages::PresetFormSubmit'),
+            'form-actions'=>array(
+                'submit'=>array('text'=>'Сохранить')
+            )
+        );
+    }
+    
+    public static function PresetFormSubmit(&$aResult){
+        global $pdo;
+        $preset = $aResult[1];
+        $code = $_POST['preset_code'];
+        $pdo->q("UPDATE imageui SET code = ? WHERE id = ?",array(
+            $pdo->serialize($code),
+            $preset->id,
+        ));
+        Notice::Message('Настройки сохранены');
     }
 }
