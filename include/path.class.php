@@ -55,6 +55,14 @@ class Path {
         return $path;
     }
 
+    public static function UrlAbs($path){
+        global $web_root;
+        $path = trim($path,$web_root);
+        $url = Path::Url($path);
+        return 'http://'.$_SERVER['HTTP_HOST'] . $url;
+    }
+
+
     public static function PathMatch($path, $pathToMatch) {
         if (strpos($path, $pathToMatch) === 0)
             return true;

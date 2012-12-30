@@ -12,6 +12,7 @@ class Notification {
                 'title' => 'Управление рассылками',
                 'callback' => 'Notification::MainPage',
                 'rules' => array('Изменять состояние подписок'),
+                'group'=>'Пользователи'
             ),
         );
     }

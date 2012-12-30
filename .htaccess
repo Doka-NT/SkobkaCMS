@@ -18,4 +18,3 @@ DirectoryIndex index.php
   RewriteCond %{REQUEST_URI} !=/favicon.ico
   RewriteRule ^(.*)$ index.php?path=$1 [L,QSA]
 </IfModule>
-

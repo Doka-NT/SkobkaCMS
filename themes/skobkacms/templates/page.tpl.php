@@ -12,7 +12,7 @@
             <div class="header">
                 <div class="header1">
                     <a href="/" id="logo"><img src="/themes/skobkacms/images/logo.png" alt="SkobkaCMS"/></a>
-                    <div class="inner"><?= $top; ?></div>
+                    <div class="inner top"><?= $top; ?></div>
                 </div>
                 <?if($user1):?>
                 <div class="header2">

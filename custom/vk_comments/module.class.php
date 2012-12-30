@@ -15,9 +15,10 @@ class VK_Comments {
     public function Menu() {
         return array(
             'admin/vk_comments' => array(
-                'title' => 'Настройка',
+                'title' => 'Настройка VK_Comments',
                 'rules' => array('Настраивать соц.комментарии'),
                 'callback' => 'VK_Comments::SettingsPage',
+                'group'=>'Настройка'
             ),
         );
     }

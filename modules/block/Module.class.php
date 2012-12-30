@@ -33,6 +33,7 @@ class Block {
                 'callback' => 'BlockAdmin::MainPage',
                 'file' => 'BlockAdmin',
                 'rules' => array('Управление блоками'),
+                'group'=>'Блоки'
             ),
             'admin/block/add' => array(
                 'title' => 'Добавить блок',
@@ -40,6 +41,7 @@ class Block {
                 'callback' => 'BlockAdmin::AddBlock',
                 'file' => 'BlockAdmin',
                 'rules' => array('Управление блоками'),
+                'group'=>'Блоки'
             ),
             'admin/block/block' => array(
                 'type' => 'callback',

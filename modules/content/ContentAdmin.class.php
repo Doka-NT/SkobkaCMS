@@ -81,6 +81,7 @@ class ContentAdmin {
 	public static function ContentAddFormSubmit(&$aResult){
 		global $pdo,$user;
 		$content_id = (int)Path::Arg(3);
+                $added = true;
 		if(!$content_id){
 			$pdo->insert('content',array(
 				'title'=>$_POST['content_name'],
@@ -99,10 +100,16 @@ class ContentAdmin {
 				$content_id,
 			));
 			Notice::Message('Материал обновлен');
+                        $added = false;
 		}
 		$content_id = $content_id?$content_id:$pdo->lastInsertId();
 		$aResult['content_id'] = $content_id;
 		$aResult['replace'] = Path::Url('content/'.$content_id);
+                $oContent = Content::Load($content_id);
+                if($added)
+                    Event::Call('ContentAdd',$oContent);
+                else 
+                    Event::Call ('ContentEdit',$oContent);
 	}
 	
 	public static function ContentEdit(){

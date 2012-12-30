@@ -85,6 +85,8 @@ class Image {
     }
     
     public static function Save($image,$filepath){
+        $dir = File::FileDir($filepath);
+        File::CreateDir($dir);
         $func = 'image'.Image::GetType($filepath);
         return $func($image,$filepath);
     }
@@ -93,5 +95,11 @@ class Image {
         $image = imagecreatetruecolor($w, $h);
         Image::SaveAlpha($image);
         return $image;
+    }
+    
+    public static function HtmlSize($filepath){
+        $size = getimagesize($filepath);
+        if($size)
+            return $size[3];
     }
 }

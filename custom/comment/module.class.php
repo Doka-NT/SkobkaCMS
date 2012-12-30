@@ -18,12 +18,14 @@ class Comment {
                 'callback'  =>  'CommentAdmin::CommentSettings',
                 'file'      =>  'CommentAdmin',
                 'rules'     =>  array('Управлять настройками комментариев'),
+                'group'=>'Настройки'
             ),
             'admin/comments/list'=>array(
                 'title'     =>  'Список комментариев',
                 'callback'  =>  'CommentAdmin::CommentList',
                 'file'      =>  'CommentAdmin',
                 'rules'     =>  array('Управлять комментариями'),
+                'group'=>'Содержимое'
             ),
             'comment/delete'=>array(
                 'type'      =>  'callback',

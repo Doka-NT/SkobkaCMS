@@ -14,8 +14,8 @@ class File {
         if (!File::Exists($file_src))
             return false;
         $dir = File::FileDir($file_dst);
-        if(!File::CreateDir($dir)){
-            Notice::Error('Не возможно создать папку одноименную файлу '.$dir);
+        if (!File::CreateDir($dir)) {
+            Notice::Error('Не возможно создать папку одноименную файлу ' . $dir);
             return false;
         }
         $res = copy($file_src, $file_dst);
@@ -37,7 +37,7 @@ class File {
     }
 
     public static function CreateDir($path) {
-        if(is_file($path))
+        if (is_file($path))
             return false;
         if (!is_dir($path))
             return mkdir($path, 0777, true);
@@ -45,7 +45,7 @@ class File {
     }
 
     public static function Delete($filepath) {
-        if(File::Exists($filepath))
+        if (File::Exists($filepath))
             return unlink($filepath);
     }
 
@@ -57,7 +57,7 @@ class File {
     public static function SaveUpload($name) {
         $file = $_FILES[$name];
         $new_files = array();
-        if(!is_array($file))
+        if (!is_array($file))
             return false;
         foreach ($file['error'] as $index => $status) {
             if ($status == UPLOAD_ERR_OK) {
@@ -65,17 +65,27 @@ class File {
                 $filepath = 'files' . DS . 'upload' . DS . $filename;
                 if (File::Move($file['tmp_name'][$index], $filepath))
                     $new_files[$index] = (object) array(
-                        'type' => $file['type'][$index],
-                        'size' => $file['size'][$index],
-                        'name' => $filename,
-                        'filepath' => $filepath,
-                        'original_name' => $file['name'][$index],
+                                'type' => $file['type'][$index],
+                                'size' => $file['size'][$index],
+                                'name' => $filename,
+                                'filepath' => $filepath,
+                                'original_name' => $file['name'][$index],
                     );
-                else 
-                    Notice::Error ('Не уадалось загрузить файл '. $file['name'][$index]);
+                else
+                    Notice::Error('Не уадалось загрузить файл ' . $file['name'][$index]);
             }
         }
         return $new_files;
+    }
+
+    public static function RmDir($dir) {
+        foreach (glob($dir . '/*') as $file) {
+            if (is_dir($file))
+                File::RmDir($file);
+            else
+                File::Delete($file);
+        }
+        rmdir($dir);
     }
 
 }

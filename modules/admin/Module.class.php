@@ -4,14 +4,13 @@ class Admin {
 
     public function __construct() {
         Module::IncludeFile('admin', 'AdminEvent.class.php');
-        
-        Event::Bind('Update','AdminEvent::EventUpdate');
-        
+
+        Event::Bind('Update', 'AdminEvent::EventUpdate');
+
         Event::Bind('Loaded', 'Admin::EventLoaded');
         Event::Bind('PdoQuery', 'Admin::EventPdoQuery');
         Event::Bind('CacheDelete', 'Admin::EventCacheDelete');
         Event::Bind('FormLoad', 'Admin::EventFormLoad');
-        
     }
 
     public static function EventFormLoad(&$aForm) {
@@ -30,19 +29,19 @@ class Admin {
             ));
             unset($_SESSION['sisyphus'][$aForm['id']]);
         }
-        if(!$aForm['submit'])
+        if (!$aForm['submit'])
             $aForm['submit'] = array();
-        if($aForm['submit']){
-            if(!is_array($aForm['submit']))
+        if ($aForm['submit']) {
+            if (!is_array($aForm['submit']))
                 $aForm['submit'] = array($aForm['submit']);
         }
         $aForm['submit'][] = 'Admin::EventFormLoadSubmit';
     }
 
-    public static function EventFormLoadSubmit(&$aResult,$aForm){
-        $_SESSION['sisyphus'][$aForm['id']] = true;        
+    public static function EventFormLoadSubmit(&$aResult, $aForm) {
+        $_SESSION['sisyphus'][$aForm['id']] = true;
     }
-    
+
     public static function EventPdoQuery($opt = array()) {
         $sql = $opt['sql'];
         $args = $opt['args'];
@@ -52,7 +51,7 @@ class Admin {
     }
 
     public function Rules() {
-        return array('Настройка сайта', 'Просмотр статистики выполнения','Загружать файлы');
+        return array('Настройка сайта', 'Просмотр статистики выполнения', 'Загружать файлы');
     }
 
     public static function EventLoaded() {
@@ -72,6 +71,7 @@ class Admin {
     public function Menu() {
         return array(
             'frontpage' => array(
+                'type'=>'callback',
                 'callback' => 'AdminPages::Frontpage',
                 'file' => 'AdminPages',
                 'title' => 'Главная',
@@ -81,18 +81,21 @@ class Admin {
                 'callback' => 'AdminPages::Cache',
                 'file' => 'AdminPages',
                 'rules' => array('Настройка сайта'),
+                'group'=>'Настройки'
             ),
             'admin/settings' => array(
                 'callback' => 'AdminPages::Settings',
                 'file' => 'AdminPages',
-                'title' => 'Настройки',
+                'title' => 'Настройки сайта',
                 'rules' => array('Настройка сайта'),
+                'group'=>'Настройки'
             ),
             'admin/url-alias' => array(
                 'title' => 'URL пути (ЧПУ)',
                 'file' => 'AdminPages',
                 'rules' => array('Настройка сайта'),
                 'callback' => 'AdminPages::UrlAlias',
+                'group'=>'Структура'
             ),
             'admin/url-alias/delete' => array(
                 'type' => 'callback',
@@ -105,6 +108,7 @@ class Admin {
                 'file' => 'AdminPages',
                 'rules' => array('Настройка сайта'),
                 'callback' => 'AdminPages::Modules',
+                'group'=>'Структура'
             ),
             'admin/modules/toggle' => array(
                 'type' => 'callback',
@@ -112,11 +116,11 @@ class Admin {
                 'rules' => array('Настройка сайта'),
                 'callback' => 'AdminPages::ModulesToggle',
             ),
-            'file_upload'=>array(
-                'type'  =>  'callback',
-                'file'  =>  'AdminPages',
-                'rules' =>  array('Загружать файлы'),
-                'callback'  =>  'AdminPages::FileUpload',
+            'file_upload' => array(
+                'type' => 'callback',
+                'file' => 'AdminPages',
+                'rules' => array('Загружать файлы'),
+                'callback' => 'AdminPages::FileUpload',
             ),
         );
     }
@@ -206,14 +210,14 @@ class Admin {
                 'arguments' => array('name' => NULL, 'options' => array(), 'values' => array(), 'attributes' => array()),
             ),
             'file-upload' => array(
-                'type'  =>  'template',
-                'template'  =>  $modulePath . DS .'file-upload.tpl.php',
-                'arguments' =>  array('name'=>NULL, 'label'=>NULL,'value'=>NULL,'attributes'=>array()),
+                'type' => 'template',
+                'template' => $modulePath . DS . 'file-upload.tpl.php',
+                'arguments' => array('name' => NULL, 'label' => NULL, 'value' => NULL, 'attributes' => array()),
             ),
-            'file-upload-item'=>array(
-                'type'=>'template',
-                'template'=> $modulePath . DS . 'file-upload-item.tpl.php',
-                'arguments'=>array('file'=>null),
+            'file-upload-item' => array(
+                'type' => 'template',
+                'template' => $modulePath . DS . 'file-upload-item.tpl.php',
+                'arguments' => array('file' => null),
             ),
         );
     }
@@ -232,17 +236,31 @@ class Admin {
             return;
         global $side_menu;
         $item = '';
-        if(!is_array($side_menu))
+        if (!is_array($side_menu))
             return;
-        foreach ($side_menu as $module => $aLinks) {
-            $module_info = Module::GetInfo($module);
-            $title = $module_info ? $module_info['name'] : $module;
-            $item .= '<li><div class="sm-module collapsed">' . $title . '</div>';
-            $subitem = '';
-            foreach ($aLinks as $aLinkInfo) {
-                $subitem .= '<li>' . Theme::Render('link', $aLinkInfo['path'], $aLinkInfo['title']) . '</li>';
+        $smt = Variable::Get('side_menu_type', 'group');
+        if ($smt == 'module'){
+            foreach ($side_menu['modules'] as $module => $aLinks) {
+                $module_info = Module::GetInfo($module);
+                $title = $module_info ? $module_info['name'] : $module;
+                $item .= '<li><div class="sm-module collapsed">' . $title . '</div>';
+                $subitem = '';
+                foreach ($aLinks as $aLinkInfo) {
+                    $subitem .= '<li>' . Theme::Render('link', $aLinkInfo['path'], $aLinkInfo['title']) . '</li>';
+                }
+                $item .= '<ul class="side-menu-sub">' . $subitem . '</ul></li>';
+            } 
+        }
+        elseif ($smt == 'group'){
+            ksort($side_menu['groups']);
+            foreach ($side_menu['groups'] as $group => $aLinks) {
+                $item .= '<li><div class="sm-module collapsed">' . $group . '</div>';
+                $subitem = '';
+                foreach ($aLinks as $aLinkInfo) {
+                    $subitem .= '<li>' . Theme::Render('link', $aLinkInfo['path'], $aLinkInfo['title']) . '</li>';
+                }
+                $item .= '<ul class="side-menu-sub">' . $subitem . '</ul></li>';
             }
-            $item .= '<ul class="side-menu-sub">' . $subitem . '</ul></li>';
         }
         Theme::AddJs(Module::GetPath('admin') . DS . 'js' . DS . 'side-menu.js');
         Theme::AddCss(Module::GetPath('admin') . DS . 'css' . DS . 'side-menu.css');
@@ -272,8 +290,8 @@ class Admin {
             return;
         global $memory_start;
         $memory = memory_get_usage();
-        $memory_total = round((($memory - $memory_start) / 1024) / 1024,2);
-        $out .= '<div class="rinfo-row"><b>Использовано памяти:</b> '.$memory_total.' Mb</div>';
+        $memory_total = round((($memory - $memory_start) / 1024) / 1024, 2);
+        $out .= '<div class="rinfo-row"><b>Использовано памяти:</b> ' . $memory_total . ' Mb</div>';
         $out .= '<div class="rinfo-row">queries: ' . $GLOBALS['query_counter'] . '</div>';
         $out .= '<div>' . implode("<br>", $GLOBALS['query_list']) . '</div>';
         return $out;
@@ -282,7 +300,7 @@ class Admin {
     public static function EventCacheDelete() {
         global $pdo;
         $pdo->query('TRUNCATE forms;');
-        foreach(glob(STATIC_DIR . DS . 'css' . DS . '*') as $cssFile){
+        foreach (glob(STATIC_DIR . DS . 'css' . DS . '*') as $cssFile) {
             File::Delete($cssFile);
         }
     }

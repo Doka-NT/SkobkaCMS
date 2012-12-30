@@ -15,18 +15,21 @@ class User {
             'user' => array(
                 'title' => 'Центр пользователя',
                 'callback' => 'User::PageUser',
+                'group'=>'Пользователи'
             ),
             'admin/user/groups' => array(
                 'title' => 'Группы пользователей',
                 'callback' => 'UserAdmin::PageGroups',
                 'file' => 'UserAdmin',
-                'rules' => array('Управление пользователями')
+                'rules' => array('Управление пользователями'),
+                'group'=>'Пользователи'
             ),
             'admin/user/list' => array(
                 'title' => 'Список пользователей',
                 'callback' => 'UserAdmin::UserList',
                 'file' => 'UserAdmin',
-                'rules' => array('Управление пользователями')
+                'rules' => array('Управление пользователями'),
+                'group'=>'Пользователи'
             ),
             'logout' => array(
                 'type' => 'callback',

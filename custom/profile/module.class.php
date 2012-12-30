@@ -30,6 +30,7 @@ class profile {
                 'callback'=>'ProfileAdmin::Settings',
                 'file'=>'ProfileAdmin',
                 'rules'=>array('Настройка профилей'),
+                'group'=>'Настройки'
             ),
             'profile/file_upload'=>array(
                 'type'=>'callback',

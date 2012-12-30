@@ -20,25 +20,28 @@ class QB {
     public function Menu() {
         return array(
             'admin/qbuilder' => array(
-                'title' => 'Список',
+                'title' => 'Список конструкторов',
                 'callback' => 'QBAdmin::MainPage',
                 'file' => 'QBAdmin',
                 'rules' => array('Использовать конструктор'),
+                'group'=>'Структура'
             ),
             'admin/qbuilder/add' => array(
-                'title' => 'Создать',
+                'title' => 'Создать конструктор',
                 'callback' => 'QBAdmin::Add',
                 'file' => 'QBAdmin',
                 'rules' => array('Использовать конструктор'),
+                'group'=>'Структура'
             ),
             'admin/qbuilder/import' => array(
-                'title' => 'Импортировать',
+                'title' => 'Импортировать конструктор',
                 'callback' => 'QBAdmin::Import',
                 'file' => 'QBAdmin',
                 'rules' => array('Использовать конструктор'),
+                'group'=>'Структура'
             ),            
             'admin/qbuilder/export' => array(
-                'title' => 'Экспортировать',
+                'title' => 'Экспортировать конструктор',
                 'type'  =>  'callback',
                 'callback' => 'QBAdmin::Export',
                 'file' => 'QBAdmin',

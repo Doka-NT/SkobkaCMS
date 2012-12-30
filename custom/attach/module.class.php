@@ -24,9 +24,10 @@ class Attach {
                 'rules'=>array('Скачивать файлы'),
             ),
             'admin/attach/settings'=>array(
-                'title'=>'Настройки',
+                'title'=>'Настройки прикрепления файлов',
                 'callback'=>'Attach::PageSettings',
                 'rules'=>array('Настраивать прикрепление файлов'),
+                'group'=>'Настройки'
             ),            
         );
     }

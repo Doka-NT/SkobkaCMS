@@ -34,22 +34,25 @@ class Blog {
     public function Menu() {
         return array(
             'admin/blog' => array(
-                'title' => 'Настройки',
+                'title' => 'Настройки блога',
                 'callback' => 'BlogAdmin::SettingsPage',
                 'file' => 'BlogAdmin',
                 'rules' => array('Администрировать блоги'),
+                'group'=>'Настройки'
             ),
             'blog/add/blog' => array(
                 'title' => 'Создать блог',
                 'callback' => 'BlogPages::AddBlog',
                 'file' => 'BlogPages',
                 'rules' => array('Создавать блоги'),
+                'group'=>'Блог'
             ),
             'blog/add/post' => array(
                 'title' => 'Создать публикацию',
                 'callback' => 'BlogPages::AddPost',
                 'file' => 'BlogPages',
                 'rules' => array('Публиковать записи'),
+                'group'=>'Блог'
             ),            
             'ajax/blog/autocomplete' => array(
                 'type' => 'callback',
@@ -59,6 +62,7 @@ class Blog {
                 'title' => 'Блог',
                 'callback' => 'BlogPages::BlogMain',
                 'file' => 'BlogPages',
+                'group'=>'Блог'
             ),
             'blog/post' => array(
                 'title' => 'Запись блога',
@@ -70,16 +74,19 @@ class Blog {
                 'title' =>  'Список блогов',
                 'callback'  =>  'BlogPages::BlogList',
                 'file'  =>  'BlogPages',
+                'group'=>'Блог'
             ),
             'blog/drafts'=>array(
                 'title' =>  'Черновики',
                 'callback'  =>  'BlogPages::PageDrafts',
                 'file'      =>  'BlogPages',
+                'group'=>'Блог'
             ),
             'blog/personal'=>array(
                 'title' =>  'Персональный блог',
                 'callback'  =>  'BlogPages::PagePersonal',
                 'file'      =>  'BlogPages',
+                'type'=>'callback',
             ),            
             'ajax/blog/voting' =>   array(
                 'type'  =>  'callback',

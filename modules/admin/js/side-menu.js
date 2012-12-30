@@ -21,7 +21,9 @@ $(function(){
 	
     $('.sm-module').click(function(){
         var that = $(this);
-        that.next().slideToggle(200,function(){
+        var next = $(this).next();
+        $('#block-side-menu .side-menu-sub').not(next).slideUp('fast');
+        next.slideToggle(200,function(){
             that.toggleClass('collapsed');
         });
     });

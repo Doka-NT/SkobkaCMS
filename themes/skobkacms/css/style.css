@@ -26,26 +26,52 @@ background: white;
 .header1 .inner {margin-left: 410px;}
 .user3 {position: absolute;width: 560px;top: 100px;right: 30px;}
 .footer {height:41px;padding:10px;background: #52721b url(../images/footer.png) repeat-x 0 0;position: relative;clear: both;}
-#block-menu-2 .block-title {
+.top .block-title {
 display: none;
 }
-#block-menu-2-content li {
+.top ul.menu li {
 display: inline-block;
 margin: 0 15px;
 }
-#block-menu-2-content li a {
+.top ul.menu li a {
 color: white;
 text-shadow: -1px -1px 1px black;
 padding: 2px 5px;
 }
-#block-menu-2-content li a:hover, #block-menu-2-content li.active a {
+.top ul.menu li a:hover, #block-menu-2-content li.active a {
 border-bottom: 2px solid white;
 text-decoration: none;
 }
-#block-menu-2 {
+.top ul.menu {
 position: absolute;
-right: 30px;
+left: 360px;
 top: 55px;
+}
+.top ul.menu ul {
+    top:100%;
+    left:auto;
+    display:none;
+    margin:0;   
+    padding: 0;
+}
+.top ul.menu ul.menu li {
+margin: 0;
+display: block;
+min-width: 150px;
+padding: 3px;
+text-align: left;
+/*border-bottom: 2px solid #98CE98;*/
+}
+
+.top ul.menu ul.menu li a::before {content: "•";margin-right:5px;}
+.top ul.menu li ul.menu a:hover {text-decoration: none;border:none;}
+.top ul.menu li li:hover {background: rgba(0,0,0,0.2);}
+.top ul.menu li li a {display: block;}
+.top ul.menu li:hover > ul {display:block;}
+.top ul.menu ul.menu ul.menu {
+    position:absolute;
+    left:100%;right:auto;top:0;
+    margin:0;
 }
 #block-custom-2 .block-title {
 display: none;

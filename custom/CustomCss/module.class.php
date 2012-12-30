@@ -8,6 +8,7 @@ class CustomCss {
                 'title' => 'Добавить/Редактировать CSS',
                 'rules' => array('Редактировать CSS'),
                 'callback' => 'CustomCss::MainPage',
+                'group'=>'Оформление'
             ),
         );
     }

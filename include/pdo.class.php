@@ -79,4 +79,26 @@ class DBPDO {
         return $this->database->lastInsertId();
     }
 
+    
+    /*Дополнительные сокращения*/
+    public function Q($sql,$args = array()){
+        return $this->query($sql,$args);
+    }
+    
+    public function QL($sql,$args,$limit_from = 0, $limit_till = 1000){
+        return $this->queryLimit($sql,$args,$limit_from, $limit_till);
+    }
+    
+    public function FO($state){
+        return $this->fetch_object($state);
+    }
+    
+    public function LII(){
+        return $this->lastInsertId();
+    }
+    
+    public function QR($sql,$args = array()){
+        return $this->QueryRow($sql, $args);
+    }
+    
 }
