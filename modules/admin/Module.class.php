@@ -55,15 +55,20 @@ class Admin {
     }
 
     public static function EventLoaded() {
-        global $theme;
-
         Theme::AddCss(Theme::GetPath('default') . DS . 'css/reset.css');
-        Theme::AddCss(Theme::GetPath('default') . DS . 'bootstrap/css/bootstrap.min.css');
+        /*LOAD BASE*/
         Theme::AddCss(Theme::GetPath('default') . DS . 'css/base.css');
         Theme::AddJs(Theme::GetPath('default') . DS . 'js/jquery-1.8.2.min.js');
         Theme::AddJs(Theme::GetPath('default') . DS . 'js/jquery.cookie.js');
-        Theme::AddJs(Theme::GetPath('default') . DS . 'bootstrap/js/bootstrap.min.js');
-        Theme::AddJs(Theme::GetPath('default') . DS . 'js/main.js');
+        
+        Theme::AddJs(Theme::GetPath('default') . DS . 'js/main.js');        
+        /**LOAD BOOTSTRAP*/
+        $aInfo = Theme::ThemeInfo();
+        if($aInfo['bootstrap'] !== FALSE){
+            Theme::AddCss(Theme::GetPath('default') . DS . 'bootstrap/css/bootstrap.min.css');
+            Theme::AddJs(Theme::GetPath('default') . DS . 'bootstrap/js/bootstrap.min.js');
+        }
+        /****************/
 
         Theme::SiteName($s = Variable::Get('site_name'));
     }

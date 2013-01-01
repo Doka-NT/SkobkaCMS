@@ -38,6 +38,8 @@ class NavAdmin {
 	public static function MenuPage(){
 		global $pdo;
 		$menu_id = Path::Arg(3);
+                $menu = $pdo->qr("SELECT * FROM menu WHERE menu_id = ?",array($menu_id));
+                Theme::SetTitle($menu->title);
 		$q = $pdo->query("SELECT * FROM menu_items mi WHERE mi.menu_id = ? AND mi.parent = 0 ORDER BY mi.weight",array($menu_id));
 		$rows = array();
 		while($menu_item = $pdo->fetch_object($q)){

@@ -28,7 +28,7 @@ class Theme {
     }
 
     public static function Page($sContent) {
-        global $theme, $theme_info, $page_title;
+        global $theme, $theme_info, $page_title,$web_root;
         $sTpl = Theme::GetThemePath($theme) . DS . 'templates' . DS . 'page.tpl.php';
 
         $aBlocks = Block::GetList();
@@ -47,6 +47,10 @@ class Theme {
             'head' => Theme::GetHead(),
             'messages' => Notice::GetAll(),
             'is_front' => Path::Get() == 'frontpage' ? true : false,
+            'theme_path' => Path::Url(Theme::GetPath($theme)),
+            'site_name' => Variable::Get('site_name',''),
+            'frontpage' => $web_root,
+            'runtime_info'=>Admin::RuntimeInfo(),
         );
         return Theme::_Include($sTpl, $aVars);
     }
@@ -85,7 +89,7 @@ class Theme {
     public static function ThemeInfo($sTheme = false) {
         if (!$sTheme)
             $sTheme = $GLOBALS['theme'];
-        include Theme::GetThemePath($sTheme) . DS . 'theme.class.php';
+        include_once Theme::GetThemePath($sTheme) . DS . 'theme.class.php';
         $info = new ThemeInfo();
         return $info->Info();
     }

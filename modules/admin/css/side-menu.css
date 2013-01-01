@@ -28,3 +28,4 @@ cursor:pointer;
 .side-menu-item > li > .side-menu-sub > li:hover {background:#7f7f7f;}
 .side-menu-item > li > .side-menu-sub > li a {color:#fff;font-size:12px;display:block;padding:5px 10px;}
 .side-menu-item > li > .side-menu-sub > li a:hover {color:#fff;text-decoration:underline;}
+#block-side-menu .block-title {display:none;}

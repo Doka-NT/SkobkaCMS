@@ -60,7 +60,7 @@ var CMS = {
                                 if(typeof CMS.settings.forms.sisyphus != 'undefined'){
                                     for(i in CMS.settings.forms.sisyphus){
                                         if(CMS.settings.forms.sisyphus[i])
-                                            $('#'+i).sisyphus({autoRelease:false,timeout:1,excludeFields:$('.autocomplete2')});
+                                            $('#'+i).sisyphus({autoRelease:true,timeout:1,excludeFields:$('.autocomplete2')});
                                         else {
                                             $('#'+i).sisyphus().manuallyReleaseData();
                                             $('#'+i).each(function(){

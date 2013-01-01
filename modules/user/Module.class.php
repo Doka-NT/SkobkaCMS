@@ -96,10 +96,16 @@ class User {
             //'ajax'=>true,
             'result' => 'prepend',
         );
+        if($user->uid){
+            $links = array();
+            Event::Call('UserMenuLinks',$links);
+            $links = '<li>'.implode('</li><li>',$links).'</li>';
+        }
         $user_menu = array(
             'id' => 'user-menu',
             'type' => 'template',
             'sisyphus'=>false,
+            'arguments'=>array('links'=>$links),
             'template' => Module::GetPath('user') . DS . 'theme' . DS . 'user-menu.tpl.php',
         );
 

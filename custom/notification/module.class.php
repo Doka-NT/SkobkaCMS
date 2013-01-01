@@ -1,6 +1,16 @@
 <?php
 
 class Notification {
+    
+    public function Init(){
+        Event::Bind('UserMenuLinks','Notification::EventUserMenuLinks');
+    }
+    
+    public static function EventUserMenuLinks(&$aLinks){
+        if(!User::Access('Изменять состояние подписок'))
+            return;
+        $aLinks[] = Theme::Render('link','notification','Настройка уведомлений');
+    }
 
     public function Rules() {
         return array('Изменять состояние подписок');

@@ -76,6 +76,7 @@ class Core {
             'session',
             'file',
             'image',
+            'date',
         );
         foreach ($aFiles as $sFile)
             require 'include/' . $sFile . '.class.php';
