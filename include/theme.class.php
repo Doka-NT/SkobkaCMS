@@ -30,7 +30,7 @@ class Theme {
     public static function Page($sContent) {
         global $theme, $theme_info, $page_title,$web_root;
         $sTpl = Theme::GetThemePath($theme) . DS . 'templates' . DS . 'page.tpl.php';
-
+        $aVars = array();
         $aBlocks = Block::GetList();
         foreach ($theme_info['positions'] as $position) {
             $aVars[$position] = Block::GetByPosition($position, $aBlocks);

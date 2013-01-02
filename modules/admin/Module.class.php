@@ -269,7 +269,7 @@ class Admin {
         }
         Theme::AddJs(Module::GetPath('admin') . DS . 'js' . DS . 'side-menu.js');
         Theme::AddCss(Module::GetPath('admin') . DS . 'css' . DS . 'side-menu.css');
-        return '<div id="side-menu"><div class="sm-head">Администрирование</div><div class="sm-body"><ul class="side-menu-item">' . $item . '</ul></div></div>';
+        return '<div id="side-menu"><div class="sm-head">Администрирование</div><div class="sm-body"><ul class="side-menu-item" >' . $item . '</ul></div></div>';
     }
 
     public static function GetThemes() {
