@@ -17,6 +17,8 @@ class NavEvent {
         $item['menu_id'] = $str_parse[1];
         $item['parent'] = $str_parse[2];
         $item['path'] = 'content/' . $aResult['content_id'];
+        if(!$item['name'])
+            return;
         if ($item['menu_item_id'])
             $pdo->query("UPDATE menu_items SET parent = ?, title = ?, menu_id = ?, weight = ? WHERE path LIKE ?", array(
                 $item['parent'],

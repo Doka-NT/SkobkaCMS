@@ -65,7 +65,7 @@ var CMS = {
                                 timeout: 1,
                                 excludeFields:$('.autocomplete2, input[value=""], select[value=""]')
                             };
-                            _form.before('<div class="alert">Данаая страница, возможно, имеет сохраненные данные. <br><a href="#" class="sisyphus-load">Попытаться восстановить</a> их или <a href="#" class="sisyphus-clear">сбросить</a>.</div>');
+                            _form.before('<div class="alert">Данная страница, возможно, имеет сохраненные данные. <br><a href="#" class="sisyphus-load">Попытаться восстановить</a> их или <a href="#" class="sisyphus-clear">сбросить</a>.</div>');
                                             
                             $('a.sisyphus-load').on('click',function(){
                                 _form.sisyphus(sisopt).restoreAllData();

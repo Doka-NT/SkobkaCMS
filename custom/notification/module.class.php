@@ -69,6 +69,7 @@ class Notification {
             'template' => Module::GetPath('notification') . DS . 'forms' . DS . 'notification-form.tpl.php',
             'submit' => array('Notification::MainFormSubmit'),
             'arguments' => array('aList' => array()),
+            'sisyphus'=>false,
         );
     }
 

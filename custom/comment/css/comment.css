@@ -12,3 +12,4 @@
 .comment-false {margin-top:20px;}
 .comments-title {margin-top:40px;}
 .comments-main-wrapper {overflow:hidden;}
+#comment_form #comment {width:98%;height:70px;}

@@ -161,7 +161,8 @@ class Nav {
         while($mi = $pdo->fetch_object($q)){
             if($item_id == $mi->menu_item_id)
                 continue;
-            $selected = ($parent_set == $mi->id?'selected':'');
+            if($parent_set)
+                $selected = ($parent_set == $mi->id?'selected':'');
             $options .= '<option value="menu-' . $menu_id . '-' . $mi->menu_item_id.'" '.$selected.' >' . $prefix . $mi->title.'</option>' . self::_getMenuSubOtions($menu_id, $mi->menu_item_id, $prefix.$prefix);
         }
         return $options;

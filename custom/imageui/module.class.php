@@ -71,7 +71,10 @@ class Imageui {
     
     public static function EventCacheDelete(){
         $path = STATIC_DIR . DS . 'imageui';
-        foreach(glob($path . DS . '/*') as $el){
+        $glob = glob($path . DS . '/*');
+        if(!is_array($glob))
+            return;
+        foreach($glob as $el){
             File::RmDir($el);
         }
     }
