@@ -196,3 +196,5 @@ border: 1px solid #EEE;
 border-radius: 0;
 }
 #block-custom-6 .block-title {display:none;}
+form .form-text, form .form-textarea, form select {border-radius:0;padding: 0px 5px;height:auto;width: 98%;}
+form select {padding:0;}
