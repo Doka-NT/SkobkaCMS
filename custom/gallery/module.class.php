@@ -39,6 +39,11 @@ class Gallery {
             'template'=>'gallery-photo.tpl.php',
             'arguments'=>array('file'=>NULL,'preset'=>-1,'group_id'=>'group'),
         ),
+        'Gallery'=>array(
+            'type'=>'template',
+            'template'=>'gallery.tpl.php',
+            'arguments'=>array('html'=>''),
+        ),
     );
     
     public $EventContentLoad    =   'GalleryEvent::ContentLoad';
@@ -61,7 +66,7 @@ class Gallery {
                 continue;
             $out .= Theme::Render('GalleryPhoto',$file,$preset);
         }
-        return $out;
+        return Theme::Render('Gallery',$out);
     }
     
 }
