@@ -49,6 +49,8 @@ class Gallery {
     }
     
     public static function View($oContent){
+        if(!User::Access('Видеть галлерею'))
+            return;
         if(!is_array($oContent->attach))
             return;
         $out = '';

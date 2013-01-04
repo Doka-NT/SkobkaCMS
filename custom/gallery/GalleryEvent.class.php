@@ -8,7 +8,8 @@ class GalleryEvent {
             return;
         if (!in_array($oContent->type, $types))
             return;
-        $oContent->show_attach = false;
+        $oContent->is_gallery = true;
+        $oContent->attach_skip = explode(" ", Variable::Get('gallery_ext', 'jpeg jpg png'));
         $oContent->content[-100] = Gallery::View($oContent);
     }
 

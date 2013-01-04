@@ -155,16 +155,20 @@ class Attach {
 
     public static function EventContentView(&$args){
         if($args['content']->show_attach !== false)
-            $args['content']->content[100] = Attach::GetView('content',$args['content']->id);
+            $args['content']->content[100] = Attach::GetView('content',$args['content']->id,$args['content']->attach_skip);
     }
     
-    public static function GetView($object,$object_id){
+    public static function GetView($object,$object_id,$skip_ext = null){
         global $pdo;
         if(!User::Access('Видеть прикрепленные файлы'))
             return;
         $aFiles = Attach::GetFiles($object, $object_id);
         if(!count($aFiles))
             return;
+        if($skip_ext && is_array($skip_ext))
+            foreach($aFiles as $k=>$file)
+                if(in_array(File::Ext($file->filepath),$skip_ext))
+                        unset($aFiles[$k]);
         $out = Theme::Render('attached_files',$aFiles);
         return $out;
     }
