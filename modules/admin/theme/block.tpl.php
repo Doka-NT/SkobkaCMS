@@ -6,8 +6,6 @@ if ($block->collapse) {
     else
         $collapse_target = 'in collapse';
 }
-if(!Block::Visible($block))
-    return;
 ?><div id="<?= $block->block_id; ?>" class="block">
 <? if ((User::Access('Управление блоками')) && (preg_match('/block-custom-(.*)/', $block->block_id))): ?>
         <div class="block-control">

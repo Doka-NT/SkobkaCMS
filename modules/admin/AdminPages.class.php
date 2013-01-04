@@ -21,7 +21,6 @@ class AdminPages {
             'type' => 'template',
             'standart' => TRUE,
             'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'site-settings-form.tpl.php',
-            'fields' => array('site_name', 'site_theme', 'site_frontpage'),
         );
     }
 
@@ -81,12 +80,13 @@ class AdminPages {
         foreach ($aModule as $group => $modules) {
             $rows = array();
             foreach ($modules as $info) {
+                $depends = AdminPages::ModuleGetDepends($info);
                 $rows[] = array(
                     '#attributes' => array('class' => $db_modules[$info['module']]->status ? 'success' : ''),
                     $info['name'] ? $info['name'] : $info['module'],
                     $info['version'] ? $info['version'] : '--',
-                    $info['description'] ? $info['description'] : '--',
-                    Theme::Render('link', 'admin/modules/toggle/' . $info['module'], $db_modules[$info['module']]->status ? 'Выключить' : 'Включить', array('class' => 'module-toggle')),
+                    ($info['description'] ? $info['description'] : '--'),
+                    $depends?:Theme::Render('link', 'admin/modules/toggle/' . $info['module'], $db_modules[$info['module']]->status ? 'Выключить' : 'Включить', array('class' => 'module-toggle')),
                 );
             }
             $out .= '<div class="module-group"><h6>' . $group . '</h6>' . Theme::Render('table', $rows, $head) . '</div>';
@@ -94,6 +94,22 @@ class AdminPages {
         return $out;
     }
 
+    public static function ModuleGetDepends($info){
+        global $oEngine;
+        if(!array_key_exists('depends', $info))
+                return;
+        $needs = array();
+        foreach($info['depends'] as $module){
+            if(!$oEngine->modules->{$module}){
+                $needInfo = Admin::ModuleInfo($module);
+                $needs[] = $needInfo['name'];
+            }
+        }
+        if(!$needs)
+            return false;
+        return '<div class="module-depends">Требуется: <div class="module-depends-list">'.implode(', ',$needs).'</div></div>';
+    }
+    
     public static function ModulesToggle() {
         global $pdo;
         $module = Path::Arg(3);

@@ -52,6 +52,7 @@ class Content {
                 'title' => 'Создание материала',
             ),
             'content/content/edit/' => array(
+                'title' => 'Редактировать материал',
                 'type' => 'callback',
                 'callback' => 'ContentAdmin::ContentEdit',
                 'file' => 'ContentAdmin',
@@ -70,6 +71,7 @@ class Content {
         global $pdo;
         $q = $pdo->query("SELECT * FROM content WHERE id = ?", array($id));
         $data = $pdo->fetch_object($q);
+        $data->content = array($data->data);
         Event::Call('ContentLoad', $data);
         return $data;
     }

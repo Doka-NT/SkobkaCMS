@@ -8,5 +8,5 @@
 
 ?>
 <div class="content">
-	<div class="content-content"><?=$content->data;?></div>
+	<div class="content-content"><?=$content->body;?></div>
 </div>

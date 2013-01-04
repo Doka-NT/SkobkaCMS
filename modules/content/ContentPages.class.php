@@ -21,7 +21,9 @@ class ContentPages {
                 $args = array('content'=>&$oData,'control-link'=>&$control_links);
                 Event::Call('ContentView', $args);
                 if($control_links)
-                    $oData->data = '<div class="control-links">'.implode(' || ',$control_links).'</div>' . $oData->data;
+                    $oData->content[-10000] = '<div class="control-links">'.implode(' || ',$control_links).'</div>';
+                ksort($oData->content);
+                $oData->body = implode("",$oData->content);
 		return Theme::Template(Module::GetPath('content') . DS . 'theme' . DS . 'content.tpl.php',array('content'=>$oData),$oData->type);
 	}
         

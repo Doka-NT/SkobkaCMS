@@ -7,7 +7,7 @@ class Block {
         $out = '';
         $q = $pdo->query("SELECT * FROM blocks b WHERE b.position LIKE ? ORDER BY b.weight", array($position));
         while ($block = $pdo->fetch_object($q)) {
-            if ($aBlocks[$block->block_id]) {
+            if (($aBlocks[$block->block_id]) && Block::Visible($block)) {
                 $_block = $aBlocks[$block->block_id];
                 $block = $_block + (array) $block;
                 $block = (object) $block;

@@ -35,10 +35,10 @@
 <?if($type == 'checkbox'):?>
 	<?if($label):?>
 		<label for="<?=$name;?>">
-			<input type="checkbox" name="<?=$name;?>" <?=$value?'ckecked':'';?> <?=$_attributes;?> />
+			<input type="checkbox" name="<?=$name;?>" <?=$value?'checked="checked"':'';?> <?=$_attributes;?> />
 			<span><?=$label;?></span>
 		</label>
 	<?else:?>
-		<input type="checkbox" name="<?=$name;?>" <?=$value?'ckecked':'';?> <?=$_attributes;?> />
+		<input type="checkbox" name="<?=$name;?>" <?=$value?'checked="checked"':'';?> <?=$_attributes;?> />
 	<?endif;?>
 <?endif;?>

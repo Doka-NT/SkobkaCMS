@@ -359,9 +359,13 @@ class User {
     public static function GetAllRules() {
         global $oEngine;
         $aRules = array();
-        foreach ($oEngine->modules as $module)
+        foreach ($oEngine->modules as $module){
+            $aRules[get_class($module)] = array();
             if (method_exists($module, 'Rules'))
-                $aRules[get_class($module)] = $module->Rules();
+                $aRules[get_class($module)] += $module->Rules();
+            if(is_array($module->aRules))
+                $aRules[get_class($module)] += $module->aRules;
+        }
         return $aRules;
     }
 
