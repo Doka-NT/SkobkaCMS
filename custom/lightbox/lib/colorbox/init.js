@@ -7,8 +7,7 @@ CMS.ui.attach.colorbox = function(){
         xhrError: 'Ошибка загрузки',
         imgError: 'Не удалось загрузить изображение',
         /***/
-        maxWidth: '90%',
-        maxHeight: '90%'
+        maxWidth: '90%'
     }
     $(CMS.settings.lightbox.selector).colorbox(opt);
 }

@@ -32,7 +32,7 @@ class ImageUIProcess {
             Core::Off();
         }
         if (File::Exists($filepath)) {
-            $image = Image::Resize($filepath, 100);
+            $image = Image::Create($filepath);
             $preset = Imageui::Load($preset_id); 
             
             ob_start();
