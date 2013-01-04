@@ -7,7 +7,7 @@ class CommentEvent {
             return;
         if(!in_array($oContent->type, $types))
                 return;
-        $oContent->data .= Comment::Get('content',$oContent->id); 
+        $oContent->content[100000] = Comment::Get('content',$oContent->id); 
     }
     
     public static function EventNotificationList(&$aList){

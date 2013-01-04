@@ -2,6 +2,9 @@
 
 class Attach {
     
+    public $EventContentLoad = 'Attach::EventContentLoad';
+    public $EventContentView = 'Attach::EventContentView';
+    
     public function Rules(){
         return array(
             'Скачивать файлы',
@@ -12,7 +15,8 @@ class Attach {
     }
     
     public function Init() {
-        Event::Bind('ContentView','Attach::EventContentView');
+        //Event::Bind('ContentLoad','Attach::EventContentLoad');
+        //Event::Bind('ContentView','Attach::EventContentView');
         Event::Bind('FormLoad','Attach::EventFormLoad');
     }
     
@@ -28,7 +32,7 @@ class Attach {
                 'callback'=>'Attach::PageSettings',
                 'rules'=>array('Настраивать прикрепление файлов'),
                 'group'=>'Настройки'
-            ),            
+            ),
         );
     }
     
@@ -145,8 +149,13 @@ class Attach {
         return $data;
     }
     
+    public static function EventContentLoad(&$oContent){
+        $oContent->attach = Attach::GetFiles('content', $oContent->id);
+    }
+
     public static function EventContentView(&$args){
-        $args['content']->data .= Attach::GetView('content',$args['content']->id);
+        if($args['content']->show_attach !== false)
+            $args['content']->content[100] = Attach::GetView('content',$args['content']->id);
     }
     
     public static function GetView($object,$object_id){

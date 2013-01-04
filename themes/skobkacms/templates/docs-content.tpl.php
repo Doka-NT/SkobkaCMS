@@ -1,3 +1,3 @@
 <div class="docs-content">
-    <div class="docs-content-wrapper"><?=$content->data;?></div>
+    <div class="docs-content-wrapper"><?=$content->body;?></div>
 </div>

@@ -158,3 +158,5 @@ top: 0;
 padding: 20px 100px;
 }
 .pointer {cursor: pointer;}
+.module-depends {font-size: 11px;}
+.module-depends-list {color:#f00;}

@@ -271,7 +271,7 @@ img.bordered,img.alignleft,img.alignright,img.aligncenter, .post img, .content-c
     background-color: #FFF;
     border: 1px solid #DDD;
     padding: 3px;
-    width: 95%;
+    max-width: 95%;
     margin-bottom:2px;
 }
 img.alignleft, img.left {margin: 0 1.5em 1em 0;}

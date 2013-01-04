@@ -49,9 +49,14 @@ class Form {
             }
             $aForm['content'][0] = $data;
         }
+        if($aForm['fields']){
+            $aForm['content'] = array(implode("\n",$aForm['fields']));
+        }
         if ($aForm['standart']) {
             $aForm['content'][9999] = Theme::Render('form-actions', array('submit' => array('text' => 'Сохранить')));
-            $aForm['submit'] = array('Form::StandartSubmit');
+            if(!is_array($aForm['submit']))
+                $aForm['submit'] = array();
+            $aForm['submit'][] = 'Form::StandartSubmit';
         }
 
         /* AJAXify form */
@@ -101,7 +106,7 @@ class Form {
             if ($hash == $aForm['object']->form_hash) {
                 $aResult = array();
                 array_unshift($aForm['args'], $aResult);
-
+                
                 $validate_success = TRUE;
                 /* Check required fields as filled */
                 if ($aForm['required'])
@@ -115,7 +120,7 @@ class Form {
                         }
                     }
                 if ($validate_success) {
-
+                    $aForm['args']['POST'] = $_POST;
                     $aForm['args']['validate_success'] = $validate_success;
                     if (is_array($aForm['validate']))
                         foreach ($aForm['validate'] as $validate_callback)

@@ -45,12 +45,12 @@ class Imageui {
         return $preset;
     }
     
-    public static function PresetList(){
+    public static function PresetList($for_select = false){
         global $pdo;
         $q = $pdo->q("SELECT * FROM imageui");
         $list = array();
         while($preset = $pdo->fo($q)){
-            $list[] = $preset;
+            $list[$preset->id] = $for_select?$preset->title:$preset;
         }
         return $list;
     }

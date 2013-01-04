@@ -37,7 +37,7 @@ class subcontent {
         if ((Path::Arg(0) == 'content') && (Path::Arg(2) == 'edit'))
             return;
         if ($data)
-            $data->data = self::GetSubContentMenu($data->id) . $data->data;
+            $data->content[-10] = self::GetSubContentMenu($data->id);
     }
 
     public static function EventContentDelete(&$oContent) {

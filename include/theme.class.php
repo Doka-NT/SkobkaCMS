@@ -15,9 +15,21 @@ class Theme {
     public function __construct() {
         global $oEngine;
         $aThemeRegister = array();
-        foreach ($oEngine->modules as $oModule)
+
+        foreach ($oEngine->modules as $oModule) {
+            if ($oModule->aTheme) {
+                $oModule->aTheme = array_map(function($el) use ($oModule) {
+                    if(!array_key_exists('template', $el))
+                         return;
+                    /* Подставляем путь до папки темизации модуля module_name/theme, если указан шаблон */
+                    $el['template'] = Module::GetPath(get_class($oModule)) . DS . 'theme' . DS . $el['template'];
+                    return $el;
+                },$oModule->aTheme);
+                $aThemeRegister = $oModule->aTheme + $aThemeRegister;
+            }
             if (method_exists($oModule, 'Theme'))
                 $aThemeRegister = $oModule->Theme() + $aThemeRegister;
+        }
         $this->aThemeRegister = $aThemeRegister;
         $GLOBALS['module_css'] = $GLOBALS['module_js'] = array();
         $GLOBALS['compress'] = Variable::Get('compress_files', false);
@@ -28,7 +40,7 @@ class Theme {
     }
 
     public static function Page($sContent) {
-        global $theme, $theme_info, $page_title,$web_root;
+        global $theme, $theme_info, $page_title, $web_root;
         $sTpl = Theme::GetThemePath($theme) . DS . 'templates' . DS . 'page.tpl.php';
         $aVars = array();
         $aBlocks = Block::GetList();
@@ -48,9 +60,9 @@ class Theme {
             'messages' => Notice::GetAll(),
             'is_front' => Path::Get() == 'frontpage' ? true : false,
             'theme_path' => Path::Url(Theme::GetPath($theme)),
-            'site_name' => Variable::Get('site_name',''),
+            'site_name' => Variable::Get('site_name', ''),
             'frontpage' => $web_root,
-            'runtime_info'=>Admin::RuntimeInfo(),
+            'runtime_info' => Admin::RuntimeInfo(),
         );
         return Theme::_Include($sTpl, $aVars);
     }
@@ -211,15 +223,15 @@ class Theme {
         $out_file_path = STATIC_DIR . DS . 'css' . DS;
         $staticFileName = '';
         $module_css = array_unique($module_css);
-        $theme_css = $theme_info['css']?$theme_info['css']:array();
-        
-        $staticFileName = implode("",$module_css) . implode("", $theme_css);
+        $theme_css = $theme_info['css'] ? $theme_info['css'] : array();
+
+        $staticFileName = implode("", $module_css) . implode("", $theme_css);
         $staticFileName = $out_file_path . 'style-' . md5($staticFileName) . '.css';
         if (!File::Exists($staticFileName)) {
             foreach ($module_css as $sFile) {
                 $out .= self::_packCssPrepare($sFile);
             }
-            
+
             foreach ($theme_css as $sFile) {
                 $out .= self::_packCssPrepare($sFile, false);
             }
@@ -230,20 +242,20 @@ class Theme {
             file_put_contents($staticFileName, $compressed);
         }
         Theme::AddJsSettings(array(
-            'stylesheet'=>$web_root . $staticFileName,
+            'stylesheet' => $web_root . $staticFileName,
         ));
         return '<link rel="stylesheet" type="text/css" href="' . $web_root . $staticFileName . '" />';
     }
 
     public static function _packCssPrepare($sFile, $is_module = true) {
-        global $theme,$web_root;
-        $cssFile = $is_module?file_get_contents($sFile):file_get_contents($sFile = Theme::GetThemePath($theme) . DS . $sFile);
+        global $theme, $web_root;
+        $cssFile = $is_module ? file_get_contents($sFile) : file_get_contents($sFile = Theme::GetThemePath($theme) . DS . $sFile);
         $info = pathinfo($sFile);
         //$cssFile = str_replace('url(..','url('.$web_root.$info['dirname'],$cssFile);
         $cssFile = str_replace('url(../', 'url(' . $web_root . $info['dirname'] . '/../', $cssFile);
         $cssFile = str_replace('url("../', 'url("' . $web_root . $info['dirname'] . '/../', $cssFile);
         $cssFile = str_replace('url(\'../', 'url(\'' . $web_root . $info['dirname'] . '/../', $cssFile);
-        
+
         return $cssFile;
     }
 

@@ -49,7 +49,7 @@ class VK_Comments {
     public static function EventContentView(&$arg){
         $types = Variable::Get('vk_comments_types',array());
         if(in_array($arg['content']->type,$types))
-                $arg['content']->data .= self::Load ();
+                $arg['content']->content[100000] = self::Load ();
     }
     
     public static function Load(){

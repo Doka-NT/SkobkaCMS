@@ -57,6 +57,7 @@ class Core {
 
         $GLOBALS['oEngine']->theme_stack = $theme->Stack();
         Event::Call('Loaded');
+        Event::Call('FullLoaded');
     }
 
     /**

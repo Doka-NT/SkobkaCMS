@@ -18,8 +18,8 @@ class Menu {
 
         $GLOBALS['path'] = $sPath;
         foreach ($oEngine->modules as $oModule)
-            if (method_exists($oModule, 'Menu')) {
-                $aMenuTemp = $oModule->Menu();
+            if ($aMenuTemp = self::GetMenuByModule($oModule)) {
+                //$aMenuTemp = $oModule->Menu();
                 foreach ($aMenuTemp as $path => $aMenuItemInfo) {
                     $aMenuItemInfo += Menu::DefaultItem();
                     $aMenuTemp[$path]['module'] = get_class($oModule);
@@ -48,6 +48,24 @@ class Menu {
         else
             $out = Menu::NotFound();
         return $GLOBALS['sContent'] = $out;
+    }
+
+    /**
+     * 
+     * @global object $oEngine
+     * @param mixed $oModule Имя или объект модуля
+     * @return array() Меню модуля или пустой массив
+     */
+    public static function GetMenuByModule($oModule) {
+        global $oEngine;
+        if (is_string($oModule))
+            $oModule = $oEngine->modules->{$oModule};
+        $menu = array();
+        if (method_exists($oModule, 'Menu'))
+            $menu = $oModule->Menu();
+        if (is_array($oModule->aMenu))
+            $menu += $oModule->aMenu;
+        return $menu;
     }
 
     public static function ExecuteMenuItem($aMenuItem) {
