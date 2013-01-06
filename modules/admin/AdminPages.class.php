@@ -45,6 +45,7 @@ class AdminPages {
             'type' => 'template',
             'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'url-alias-main-form.tpl.php',
             'required' => array('path', 'alias'),
+			'sisyphus'=>false,
             'submit' => array('AdminPages::UrlAliasAddSubmit'),
         );
     }
@@ -102,7 +103,7 @@ class AdminPages {
         foreach($info['depends'] as $module){
             if(!$oEngine->modules->{$module}){
                 $needInfo = Admin::ModuleInfo($module);
-                $needs[] = $needInfo['name'];
+                $needs[] = $needInfo['name']?:$module;
             }
         }
         if(!$needs)
