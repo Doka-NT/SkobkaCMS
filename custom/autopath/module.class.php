@@ -47,7 +47,7 @@ class Autopath {
 		$chbx_attr = array('class'=>'autoalias-checkbox');
 		if(!$path)
 			$chbx_attr['checked'] = 'true';
-		$aForm['content'][-4] = Theme::Render('input','checkbox','autoalias','Создать автоматически',true,$chbx_attr);
+		$aForm['content'][-4] = Theme::Render('input','checkbox','autoalias','Создать автоматически',$path?false:true,$chbx_attr);
 		$aForm['submit'][] = 'Autopath::SaveAutoPath';
 	}
 	
@@ -60,17 +60,13 @@ class Autopath {
 		$alias = $_POST['autoalias'] == 'on'?self::AutoAlias($_POST['content_name'],$oContent->type):$_POST['alias'];
 		if(!$alias)
 			return;
-                Path::DeleteAlias($_POST['alias']);
-		
+                Path::DeleteAlias('content/'.$id);
+                Path::DeleteAlias($_POST['alias'],true);
 		//Check for existing alias
 		$alias = Path::PrepareAlias($alias);
 		Path::AddAlias('content/'.$id, $alias);
-		/*$pdo->insert('url_alias',array(
-			'path'=>'content/'.$id,
-			'alias'=>$alias,
-		));*/
 		$aResult['replace'] = Path::Url($alias);
-		Notice::Message('Псевдоним добавлен');			
-		
+		Notice::Message('Псевдоним добавлен');	
+                
 	}
 }

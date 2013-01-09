@@ -196,5 +196,5 @@ border: 1px solid #EEE;
 border-radius: 0;
 }
 #block-custom-6 .block-title {display:none;}
-form .form-text, form .form-textarea, form select {border-radius:0;padding: 0px 5px;height:auto;width: 98%;}
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {border-radius:0;padding: 0px 5px;height:auto;width: 98%;}
 form select {padding:0;}

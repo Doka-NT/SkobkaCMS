@@ -2,6 +2,8 @@
 
 class Admin {
 
+    public $EventCron = 'Admin::EventCron';
+    
     public function __construct() {
         Module::IncludeFile('admin', 'AdminEvent.class.php');
 
@@ -13,9 +15,13 @@ class Admin {
         Event::Bind('FormLoad', 'Admin::EventFormLoad');
     }
 
+    public static function EventCron(){
+        Variable::Set('cron_last_run',time());
+    }    
+    
     public static function EventFormLoad(&$aForm) {
         Theme::AddJs(Module::GetPath('admin') . DS . 'js' . DS . 'sisyphus.js');
-        if ($aForm['sisyphus'] || !array_key_exists('sisyphus', $aForm))
+        if ($aForm['sisyphus'])// || !array_key_exists('sisyphus', $aForm))
             Theme::AddJsSettings(array(
                 'forms' => array(
                     'sisyphus' => array($aForm['id'] => true),
@@ -84,9 +90,23 @@ class Admin {
             'admin/cache' => array(
                 'title' => 'Сбросить кеш',
                 'callback' => 'AdminPages::Cache',
-                'file' => 'AdminPages',
+                'file'  => 'AdminPages',
                 'rules' => array('Настройка сайта'),
-                'group'=>'Настройки'
+                'group' =>'@'
+            ),
+            'admin/run_cron' => array(
+                'title' => 'Запустить CRON',
+                'callback' => 'AdminPages::RunCron',
+                'file'  => 'AdminPages',
+                'rules' => array('Настройка сайта'),
+                'group' =>'@'
+            ),
+            'admin/update'=>array(
+                'title'=>'Запустить обновление',
+                'callback'=>'AdminPages::Update',
+                'file'  => 'AdminPages',
+                'rules' => array('Настройка сайта'),
+                'group' =>'@'                
             ),
             'admin/settings' => array(
                 'callback' => 'AdminPages::Settings',
@@ -243,6 +263,16 @@ class Admin {
         $item = '';
         if (!is_array($side_menu))
             return;
+        $blockIcons = array(
+            'Блоки'=>'<i class="icon-th-large icon-white"></i>',
+            'Содержимое'=>'<i class="icon-inbox icon-white"></i>',
+            'Пользователи'=>'<i class="icon-user icon-white"></i>',
+            'Структура'=>'<i class="icon-align-center icon-white"></i>',
+            'Настройки'=>'<i class="icon-wrench icon-white"></i>',
+            'Блог'=>'<i class="icon-book icon-white"></i>',
+            'Оформление'=>'<i class="icon-leaf icon-white"></i>',
+        );
+        $admin_menu_type = Variable::Get('admin_menu_type','ver');
         $smt = Variable::Get('side_menu_type', 'group');
         if ($smt == 'module'){
             foreach ($side_menu['modules'] as $module => $aLinks) {
@@ -256,9 +286,14 @@ class Admin {
                 $item .= '<ul class="side-menu-sub">' . $subitem . '</ul></li>';
             } 
         }
-        elseif ($smt == 'group'){
-            ksort($side_menu['groups']);
+        elseif ($smt == 'group'){            
+            //ksort($side_menu['groups']);
+            $not_grouped = $side_menu['groups']['▼'];
+            unset($side_menu['groups']['▼']);
+            $side_menu['groups']['▼'] = $not_grouped;
             foreach ($side_menu['groups'] as $group => $aLinks) {
+                if($blockIcons[$group])
+                    $group = $blockIcons[$group] . $group;                
                 $item .= '<li><div class="sm-module collapsed">' . $group . '</div>';
                 $subitem = '';
                 foreach ($aLinks as $aLinkInfo) {
@@ -268,7 +303,7 @@ class Admin {
             }
         }
         Theme::AddJs(Module::GetPath('admin') . DS . 'js' . DS . 'side-menu.js');
-        Theme::AddCss(Module::GetPath('admin') . DS . 'css' . DS . 'side-menu.css');
+        Theme::AddCss(Module::GetPath('admin') . DS . 'css' . DS . 'side-menu-'.$admin_menu_type.'.css');
         return '<div id="side-menu"><div class="sm-head">Администрирование</div><div class="sm-body"><ul class="side-menu-item" >' . $item . '</ul></div></div>';
     }
 

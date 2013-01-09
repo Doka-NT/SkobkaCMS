@@ -7,4 +7,5 @@
 <?=Theme::Render('input','textarea','mail_template','Шаблон письма',Variable::Get('mail_template','<?=$body;?>'));?>
 <?=Editor::LoadCode('mail_template');?>
 <?=Theme::Render('radio','compress_files','Объединять css и js файлы',array(0=>'Нет',1=>'Да'),Variable::Get('compress_files',0));?>
-<?=Theme::Render('radio','side_menu_type','Группировать меню администратора',array('group'=>'По группам','module'=>'По модулям'),  Variable::Get('side_menu_type','group'));?>
+<?=Theme::Render('radio','admin_menu_type','Ориентация админ меню',array('ver'=>'Вертикальное','hor'=>'Горизонтальное'),  Variable::Get('admin_menu_type','ver'));?>
+<?=Theme::Render('radio','side_menu_type','Группировать меню администратора',array('group'=>'По группам','module'=>'По модулям (удобно использовать при разработке)'),  Variable::Get('side_menu_type','group'));?>

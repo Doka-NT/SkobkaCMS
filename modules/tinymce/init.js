@@ -1,3 +1,4 @@
+CMS.ui.attach.tinyMCEinit = function(){
 tinyMCE.init({
     language:	'ru',
     // General options
@@ -19,6 +20,7 @@ tinyMCE.init({
     document_base_url:  '/',
     convert_urls : false
 });
+}
 function elFinderBrowser (field_name, url, type, win) {
     var elfinder_url = '/admin/files?minimal=true&tinymce=true';    // use an absolute path!
     tinyMCE.activeEditor.windowManager.open({

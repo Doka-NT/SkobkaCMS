@@ -11,11 +11,16 @@ class Menu {
         global $oEngine;
         $aMenu = array();
         $suggestItem = null;
-
-        $SIDE_MENU = array();
+        $groups = array(
+            '@' => array(),
+            'Блоки' => array(),
+            'Содержимое' => array(),
+            'Пользователи' => array(),
+            'Структура' => array(),
+        );
+        $SIDE_MENU = array('groups'=>$groups);
         $GLOBALS['query_path'] = $sPath;
         $sPath = Path::GetByAlias($sPath);
-
         $GLOBALS['path'] = $sPath;
         foreach ($oEngine->modules as $oModule)
             if ($aMenuTemp = self::GetMenuByModule($oModule)) {
@@ -111,7 +116,7 @@ class Menu {
             'menu' => 'DEFAULT',
             'rules' => array('Обычный доступ'),
             'callback' => null,
-            'group' => 'Без группы'
+            'group' => '▼'
         );
     }
 

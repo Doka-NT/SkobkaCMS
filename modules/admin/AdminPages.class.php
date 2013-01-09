@@ -141,6 +141,16 @@ class AdminPages {
         Event::Call('CacheDelete');
         Path::Back();
     }
+
+    public static function RunCron(){
+        Event::Call('Cron');
+        Path::Back();
+    }
+    
+    public static function Update(){
+        Path::Replace('update.php');
+        Core::Off();
+    }
     
     public static function FileUpload(){
         $ext = $_SESSION['valid_extension'];

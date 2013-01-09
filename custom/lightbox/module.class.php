@@ -14,7 +14,7 @@ class Lightbox {
     
     public $EventFullLoaded = 'Lightbox::EventFullLoaded';
     
-    public function EventFullLoaded() {
+    public static function EventFullLoaded() {
         $all_pages = Variable::Get('lightbox_allpages',true);
         if($all_pages)
             Lightbox::Load();

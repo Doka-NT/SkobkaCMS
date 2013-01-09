@@ -1,3 +1,4 @@
+CMS.ui.attach.blog_post = function(){
 tinyMCE.init({
     mode : "textareas",
     document_base_url:  '/',
@@ -13,7 +14,7 @@ tinyMCE.init({
             onclick : function() {
                 ed.focus();
                 var text = 'some code';
-                ed.setContent(ed.getContent() + '<pre>'+text+'</pre>');
+                ed.setContent(ed.getContent() + '<pre>'+text+'</pre><p>&nbsp;</p>');
             }
         });
     },        
@@ -25,3 +26,4 @@ tinyMCE.init({
     valid_styles : 'color,font-size,font-weight,font-style,text-decoration',
     cleanup : true
 });
+}

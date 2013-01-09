@@ -94,6 +94,7 @@ class User {
             'required' => array('name', 'password'),
             'submit' => array('User::AuthFormSubmit'),
             //'ajax'=>true,
+			'sisyphus'=>false,
             'result' => 'prepend',
         );
         if($user->uid){
@@ -188,6 +189,7 @@ class User {
 
     public static function LoadProfile($account){
         Event::Call('ProfileLoad',$account);
+		$account->fields = is_array($account->fields)?$account->fields:array();
         ksort($account->fields);
         return $account;
     }
@@ -294,6 +296,7 @@ class User {
         return array(
             'id' => 'user-reset-password-form',
             'type' => 'template',
+			'sisyphus'=>false,
             'template' => Module::GetPath('user') . DS . 'theme' . DS . 'user-reset-password-form.tpl.php',
             'required' => array('find'),
             'submit' => array('User::ResetPasswordSubmit'),
