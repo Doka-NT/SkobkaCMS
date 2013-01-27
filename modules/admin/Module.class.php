@@ -296,6 +296,7 @@ class Admin {
                     $group = $blockIcons[$group] . $group;                
                 $item .= '<li><div class="sm-module collapsed">' . $group . '</div>';
                 $subitem = '';
+                $aLinks = is_array($aLinks)?$aLinks:array();
                 foreach ($aLinks as $aLinkInfo) {
                     $subitem .= '<li>' . Theme::Render('link', $aLinkInfo['path'], $aLinkInfo['title']) . '</li>';
                 }
