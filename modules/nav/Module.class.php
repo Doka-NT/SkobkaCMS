@@ -45,6 +45,20 @@ class Nav {
                 'file' => 'NavAdmin',
                 'rules' => array('Управление меню'),
             ),
+            
+            'admin/menu/edit'=>array(
+                'type'=>'callback',
+                'callback'=>'NavAdmin::MenuEdit',
+                'file'=>'NavAdmin',
+                'rules'=>array('Управление меню'),
+            ),
+            
+            'admin/menu/menu/edit'=>array(
+                'type'=>'callback',
+                'callback'=>'NavAdmin::MenuItemEdit',
+                'file'=>'NavAdmin',
+                'rules'=>array('Управление меню'),
+            ),
         );
     }
     /**

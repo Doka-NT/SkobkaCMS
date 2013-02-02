@@ -53,7 +53,7 @@ class Admin {
         $args = $opt['args'];
 
         $GLOBALS['query_counter']++;
-        $GLOBALS['query_list'][] = $sql . ($args ? ' <i>(' . implode(',', (array) $args) . ')</i>' : '');
+        $GLOBALS['query_list'][] = '<div class="rinfo-query">'.$sql . ($args ? ' <i class="rinfo-query-args">(' . implode(',', (array) $args) . ')</i>' : '').'</div>';
     }
 
     public function Rules() {
@@ -146,6 +146,13 @@ class Admin {
                 'file' => 'AdminPages',
                 'rules' => array('Загружать файлы'),
                 'callback' => 'AdminPages::FileUpload',
+            ),
+            'admin/settings/robots'=>array(
+                'title'=>'Настройка robots.txt',
+                'callback'=>'AdminPages::Robots',
+                'rules'=>'Настройка сайта',
+                'file'=>'AdminPages',
+                'group'=>'Настройки'
             ),
         );
     }
@@ -333,8 +340,8 @@ class Admin {
         $memory = memory_get_usage();
         $memory_total = round((($memory - $memory_start) / 1024) / 1024, 2);
         $out .= '<div class="rinfo-row"><b>Использовано памяти:</b> ' . $memory_total . ' Mb</div>';
-        $out .= '<div class="rinfo-row">queries: ' . $GLOBALS['query_counter'] . '</div>';
-        $out .= '<div>' . implode("<br>", $GLOBALS['query_list']) . '</div>';
+        $out .= '<div class="rinfo-row"><b>Запросы к БД:</b> ' . $GLOBALS['query_counter'] . '</div>';
+        $out .= '<div>' . implode("", $GLOBALS['query_list']) . '</div>';
         return $out;
     }
 

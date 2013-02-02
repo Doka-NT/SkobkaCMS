@@ -175,4 +175,27 @@ class AdminPages {
         }
         Core::Json(array('status'=>1,'files'=>$files,'data'=>$data));
     }
+    
+    public static function Robots(){
+        $robots_rules = File::Exists('robots.txt')?file_get_contents('robots.txt'):'';
+        return Form::GetForm('AdminPages::RobotsForm',$robots_rules);
+    }
+    
+    public static function RobotsForm($text){
+        return array(
+            'id'=>'admin-robots-form',
+            'fields'=>array(
+                Theme::Render('input','textarea','text','Правила',$text,array('rows'=>30,)),
+            ),
+            'form-actions'=>array(
+                'submit'=>array('text'=>'Сохранить'),
+            ),
+            'submit'=>array('AdminPages::RobotsFormSubmit'),
+        );
+    }
+    
+    public static function RobotsFormSubmit(&$aResult){
+        file_put_contents('robots.txt', $aResult['POST']['text']);
+        Notice::Message('Файл '.Theme::Render('link','robots.txt','robotx.txt').' сохранен');
+    }
 }

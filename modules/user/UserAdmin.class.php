@@ -85,7 +85,7 @@ class UserAdmin {
         while($u = $pdo->fetch_object($q))
             $row[] = array(
                 $u->uid,
-                $u->name,
+                Theme::Render('link','user/'.$u->uid,$u->name),
                 User::LoadGroup ($u->gid)->name,
                 Theme::Render('link','user/'.$u->uid.'/edit','Редактировать профиль'),
             );

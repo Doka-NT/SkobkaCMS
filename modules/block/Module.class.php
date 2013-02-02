@@ -49,6 +49,12 @@ class Block {
                 'file' => 'BlockAdmin',
                 'rules' => array('Управление блоками'),
             ),
+            'admin/block/delete'=>array(
+                'type'=>'callback',
+                'callback'=>'BlockAdmin::DeleteCustomBlock',
+                'file'=>'BlockAdmin',
+                'rules'=>array('Управление блоками'),
+            ),
         );
     }
 

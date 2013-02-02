@@ -160,3 +160,7 @@ padding: 20px 100px;
 .pointer {cursor: pointer;}
 .module-depends {font-size: 11px;}
 .module-depends-list {color:#f00;}
+
+.rinfo-query {padding: 2px 10px;border-bottom: 1px solid #ddd;font-size: 11px;overflow:hidden;}
+.rinfo-query-args {font-weight: bold;float: right;}
+.block-list-settings {display: none;}
