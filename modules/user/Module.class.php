@@ -205,8 +205,13 @@ class User {
         if (!$user->uid && ( !Path::Arg(1) || (Path::Arg(1) == 'login')))
             return Form::GetForm('User::AuthForm');
         if (Path::Arg(2) == 'edit'){
-            if(User::Access('Управление пользователями') || (Path::Arg(1) == $user->uid))
+            if(User::Access('Управление пользователями') || (Path::Arg(1) == $user->uid)){
+		$account = User::Load(Path::Arg(1));
+		if(!$account->uid)
+		    return Menu::NotFound ();
+		Theme::SetTitle('Профиль пользователя '.$account->name);
                 return Form::GetForm('User::EditForm');
+	    }
             else
                 return Menu::NotFound();
         }
@@ -214,8 +219,8 @@ class User {
             $account = User::Load($uid);
         else
             $account = $user;
+	Theme::SetTitle('Профиль пользователя '.$account->name);
         $aVars = array('account'=>User::LoadProfile($account));
-        Theme::SetTitle('Профиль пользователя '.$account->name);
         $prefixTemplate = $suffixTemplate = '';
         $p = array(&$prefixTemplate,$account);
         Event::Call('UserPrefixTemplate',$p);

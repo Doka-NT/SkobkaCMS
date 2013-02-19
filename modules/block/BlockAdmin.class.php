@@ -18,8 +18,8 @@ class BlockAdmin {
     }
 
     public static function ListFormSubmit(&$aResult) {
-        global $pdo;
-        $pdo->query("TRUNCATE blocks");
+        global $pdo,$theme;
+        $pdo->query("DELETE FROM blocks WHERE theme LIKE ?",array($theme));
         if ($_POST['block'])
             foreach ($_POST['block'] as $block_id => $aBlock) {
                 $pdo->insert('blocks', array(
@@ -29,6 +29,7 @@ class BlockAdmin {
                     'pages' => $aBlock['pages'],
                     'not_pages' => $aBlock['not_pages'],
                     'show_title'=>$aBlock['show_title'],
+		    'theme'=>$theme,
                 ));
             }
         Notice::Message('Настройки блоков сохранены');

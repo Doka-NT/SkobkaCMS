@@ -1,11 +1,13 @@
 <?php
 
 class Block {
-
-    public static function GetByPosition($position, &$aBlocks) {
+    public $EventUpdate = 'Block::EventUpdate';
+    public static function GetByPosition($position, &$aBlocks,$theme = false) {
         global $pdo;
+	if(!$theme)
+	    $theme = $GLOBALS['theme'];
         $out = '';
-        $q = $pdo->query("SELECT * FROM blocks b WHERE b.position LIKE ? ORDER BY b.weight", array($position));
+        $q = $pdo->query("SELECT * FROM blocks b WHERE b.position LIKE ? AND b.theme LIKE ? ORDER BY b.weight", array($position,$theme));
         while ($block = $pdo->fetch_object($q)) {
             if (($aBlocks[$block->block_id]) && Block::Visible($block)) {
                 $_block = $aBlocks[$block->block_id];
@@ -134,5 +136,15 @@ class Block {
         }
         return true;
     }
-
+    
+    public static function EventUpdate($version){
+	global $pdo;
+	$updated_to = Update::GetModuleUpdatedVersion('block');
+	if($updated_to < $version){
+	    if($version == 300){
+		$pdo->query("ALTER TABLE  `blocks` ADD  `theme` VARCHAR( 255 ) NOT NULL");
+		Update::Save('block',$version);
+	    }
+	}
+    }
 }

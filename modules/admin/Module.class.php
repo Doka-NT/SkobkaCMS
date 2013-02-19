@@ -141,6 +141,12 @@ class Admin {
                 'rules' => array('Настройка сайта'),
                 'callback' => 'AdminPages::ModulesToggle',
             ),
+	    'admin/modules/delete' => array(
+		'type' => 'callback',
+		'file' => 'AdminPages',
+		'rules' => array('Настройка сайта'),
+		'callback' => 'AdminPages::ModulesDelete',
+	    ),
             'file_upload' => array(
                 'type' => 'callback',
                 'file' => 'AdminPages',
@@ -351,6 +357,9 @@ class Admin {
         foreach (glob(STATIC_DIR . DS . 'css' . DS . '*') as $cssFile) {
             File::Delete($cssFile);
         }
+        foreach (glob(STATIC_DIR . DS . 'scripts' . DS . '*') as $jsFile) {
+            File::Delete($jsFile);
+        }	
     }
 
 }

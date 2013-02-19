@@ -3,7 +3,7 @@
 class tinymce {
 
     public static function Load($init = true) {
-        Theme::AddJs(Module::GetPath('tinymce') . DS . 'tiny_mce' . DS . 'tiny_mce.js');
+        Theme::AddJs(Module::GetPath('tinymce') . DS . 'tiny_mce' . DS . 'tiny_mce.js',false); //Do not aggregate this file
         Event::Bind('PagePreRender', 'tinymce::EventPagePreRender');
         if ($init)
             Theme::AddJs(Module::GetPath('tinymce') . DS . 'init.js');

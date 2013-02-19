@@ -15,7 +15,7 @@ define('STATIC_DIR', 'static', true);
 /**
  * Текущая версия CMS, требуется для правильного обновления базы
  */
-define('CMS_VERSION', 2.0);
+define('CMS_VERSION', 3.0);
 
 /**
  * Основной класс ядра CMS
@@ -78,6 +78,7 @@ class Core {
             'file',
             'image',
             'date',
+	    'update'
         );
         foreach ($aFiles as $sFile)
             require 'include/' . $sFile . '.class.php';

@@ -183,6 +183,7 @@ class NavAdmin {
                 Theme::Render('input','text','title','Название меню',$oMenu->title),
             ),
             'form-actions'=>array(
+		'cancel'=>array('text'=>'Отмена'),
                 'submit'=>array('text'=>'Сохранить'),
             ),
             'submit'=>array('NavAdmin::MenuEditFormSubmit'),

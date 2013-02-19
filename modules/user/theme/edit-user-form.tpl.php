@@ -12,5 +12,6 @@
 <?=Theme::Render('input','password','user[password]','Новый пароль');?>
 
 <?=Theme::Render('form-actions',array(
+    'cancel'=>array('text'=>'Отмена'),
     'submit'=>array('text'=>'Сохранить'),
 ));?>

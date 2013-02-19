@@ -216,7 +216,14 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
   PRIMARY KEY (`gid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;");	
 
-
+								/*IMPORT TABLE updates*/
+								query("
+CREATE TABLE  `updates` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`module` VARCHAR( 255 ) NOT NULL ,
+`version` INT NOT NULL
+) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;								    
+");
 									
 							} catch (PDOException $e){
 								echo '<div class="alert alert-danger">'.$e->getMessage().'</div><a href="javascript:window.history.back(-1);" class="btn btn-danger">Вернуться</a>';exit;

@@ -80,7 +80,8 @@ class UserAdmin {
 
     public static function UserList(){
         global $pdo;
-        $q = $pdo->query("SELECT * FROM users");
+	$per_page = 20;
+        $q = $pdo->PagerQuery($sql = "SELECT * FROM users",null,$per_page);
         $row = array();
         while($u = $pdo->fetch_object($q))
             $row[] = array(
@@ -89,6 +90,6 @@ class UserAdmin {
                 User::LoadGroup ($u->gid)->name,
                 Theme::Render('link','user/'.$u->uid.'/edit','Редактировать профиль'),
             );
-        return Theme::Render('table',$row,array('uid','Логин',"Группа","Действия"));
+        return Theme::Render('table',$row,array('uid','Логин',"Группа","Действия")) . Theme::Pager($sql, NULL, $per_page);
     }
 }

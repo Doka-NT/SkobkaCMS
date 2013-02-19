@@ -40,9 +40,9 @@ class Filemanager {
     }
 
     public static function ElFinderLoad() {
-        Theme::AddJs('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js');
-        Theme::AddJs(Module::GetPath('filemanager') . DS . 'js' . DS . 'elfinder.min.js');
-        Theme::AddJs(Module::GetPath('filemanager') . DS . 'js' . DS . 'i18n' . DS . 'elfinder.ru.js');
+        Theme::AddJs('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js',false);
+        Theme::AddJs(Module::GetPath('filemanager') . DS . 'js' . DS . 'elfinder.min.js',false);
+        Theme::AddJs(Module::GetPath('filemanager') . DS . 'js' . DS . 'i18n' . DS . 'elfinder.ru.js',false);
 
         Theme::AddCss('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css');
         Theme::AddCss(Module::GetPath('filemanager') . DS . 'css' . DS . 'elfinder.min.css');

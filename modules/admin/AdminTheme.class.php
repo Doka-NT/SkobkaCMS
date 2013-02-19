@@ -27,7 +27,12 @@ class AdminTheme {
         return '<ul class="menu">' . $out . '</ul>';
     }
 
-    public static function Table($aRows, $aThead = array()) {
+    public static function Table($aRows, $aThead = array(), $attributes = array()) {
+        if($attributes['class'])
+            $attributes['class'] .= ' table table-condensed';
+        else
+            $attributes['class'] = 'table table-condensed';
+        
         $aRows = $aRows ? $aRows : array(array('Нет данных'));
         $thead = '';
         foreach ($aThead as $th) {
@@ -47,7 +52,7 @@ class AdminTheme {
             } elseif (is_string($row)) {
                 $rows .= $row;
             }
-        return '<table class="table table-condensed">' . ($thead ? '<thead>' . $thead . '</thead>' : '') . '<tbody>' . $rows . '</tbody></table>';
+        return '<table '.Theme::Attr($attributes).'>' . ($thead ? '<thead>' . $thead . '</thead>' : '') . '<tbody>' . $rows . '</tbody></table>';
     }
 
     public static function Date($timestamp, $format = '') {

@@ -78,7 +78,7 @@
                     <div class="left">&copy; <?=Date::Get('Y');?> <?=$site_name;?> 
                         <div class="footer-content"><?=$footer;?></div>
                     </div>
-                    <div class="right">Сайт работает на <a href="http://cms.skobka.com" target="_blank">SkobkaCMS</a></div>
+                    <div class="right">Сайт работает на <a href="http://skobkacms.ru" target="_blank">SkobkaCMS</a></div>
                     <div class="clearer">&nbsp;</div>
                 </div>
                 <?if($runtime_info):?>

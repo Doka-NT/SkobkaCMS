@@ -21,9 +21,14 @@ class AdminPages {
             'type' => 'template',
             'standart' => TRUE,
             'template' => Module::GetPath('admin') . DS . 'theme' . DS . 'site-settings-form.tpl.php',
+	    'submit'=>array('AdminPages::SettingsFormSubmit'),
         );
     }
-
+    
+    public static function SettingsFormSubmit(&$aResult){
+	Event::Call('CacheDelete');
+    }
+    
     public static function UrlAlias() {
         global $pdo;
         $q = $pdo->query("SELECT * FROM url_alias");
@@ -72,7 +77,7 @@ class AdminPages {
         $aModule = Module::GetCustom();
         $out = '';
         $head = array(
-            'Название', 'Версия', 'Описание', '',
+            'Название', 'Версия', 'Описание', '',''
         );
 
         $q = $pdo->query("SELECT * FROM modules");
@@ -88,6 +93,7 @@ class AdminPages {
                     $info['version'] ? $info['version'] : '--',
                     ($info['description'] ? $info['description'] : '--'),
                     $depends?:Theme::Render('link', 'admin/modules/toggle/' . $info['module'], $db_modules[$info['module']]->status ? 'Выключить' : 'Включить', array('class' => 'module-toggle')),
+		    $db_modules[$info['module']]->status?Theme::Render('link-confirm','admin/modules/delete/'.$info['module'],'Удалить'):'',
                 );
             }
             $out .= '<div class="module-group"><h6>' . $group . '</h6>' . Theme::Render('table', $rows, $head) . '</div>';
@@ -111,9 +117,8 @@ class AdminPages {
         return '<div class="module-depends">Требуется: <div class="module-depends-list">'.implode(', ',$needs).'</div></div>';
     }
     
-    public static function ModulesToggle() {
-        global $pdo;
-        $module = Path::Arg(3);
+    protected static function _ModuleToggle($module,$uninstall = false){
+	global $pdo;
         $exists = false;
         foreach (Module::GetCustom() as $modules)
             foreach ($modules as $info)
@@ -133,8 +138,25 @@ class AdminPages {
             ));
         }
         elseif ($oModule->id)
-            $pdo->query("UPDATE modules SET status = ? WHERE id LIKE ?", array($oModule->status ? 0 : 1, $oModule->id));
+            $pdo->query("UPDATE modules SET status = ? WHERE id LIKE ?", array($oModule->status ? 0 : 1, $oModule->id));	
+	if($uninstall){
+	    if(File::Exists($sUninstallFile = Module::GetPath($module) . DS . 'module.uninstall.php'))
+		    include $sUninstallFile;
+	    $pdo->query("DELETE FROM modules WHERE name LIKE ?",array($module));
+	}
+    }
+    
+    public static function ModulesToggle() {
+        $module = Path::Arg(3);
+	self::_ModuleToggle($module);
         return Path::Back();
+    }
+    
+    public static function ModulesDelete(){
+	$module = Path::Arg(3);
+	self::_ModuleToggle($module,true);
+	Notice::Message('Модуль "'.$module.'" удален');
+	return Path::Back();
     }
     
     public static function Cache(){
