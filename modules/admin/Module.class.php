@@ -108,6 +108,13 @@ class Admin {
                 'rules' => array('Настройка сайта'),
                 'group' =>'@'                
             ),
+            'admin/update/check'=>array(
+                'title'=>'Проверить обновления',
+                'callback'=>'AdminPages::CheckUpdates',
+                'file'  => 'AdminPages',
+                'rules' => array('Настройка сайта'),
+                'group' =>'@'                
+            ),	    
             'admin/settings' => array(
                 'callback' => 'AdminPages::Settings',
                 'file' => 'AdminPages',
@@ -340,7 +347,7 @@ class Admin {
     }
 
     public static function RuntimeInfo() {
-        if (!User::Access('Просмотр статистики выполнения'))
+        if (!User::Access('Просмотр статистики выполнения') || !Variable::Get('show_runtimeinfo',1))
             return;
         global $memory_start;
         $memory = memory_get_usage();

@@ -272,6 +272,7 @@ INSERT INTO `user_groups` (`gid`, `name`, `rules`) VALUES
 (1, 'Гости', 'YToxOntpOjA7czoyNzoi0J7QsdGL0YfQvdGL0Lkg0LTQvtGB0YLRg9C/Ijt9'),
 (2, 'Авторизованные', 'YToxOntpOjA7czoyNzoi0J7QsdGL0YfQvdGL0Lkg0LTQvtGB0YLRg9C/Ijt9');");
                                                                 /*START UPDATES*/
+								set_include_path('.');
                                                                 require_once('include/core.class.php');     
                                                                 $oEngine = new Core();                                                                
                                                                 $version = CMS_VERSION * 100;

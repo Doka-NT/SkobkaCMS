@@ -9,3 +9,4 @@
 <?=Theme::Render('radio','compress_files','Объединять css и js файлы',array(0=>'Нет',1=>'Да'),Variable::Get('compress_files',0));?>
 <?=Theme::Render('radio','admin_menu_type','Ориентация админ меню',array('ver'=>'Вертикальное','hor'=>'Горизонтальное'),  Variable::Get('admin_menu_type','ver'));?>
 <?=Theme::Render('radio','side_menu_type','Группировать меню администратора',array('group'=>'По группам','module'=>'По модулям (удобно использовать при разработке)'),  Variable::Get('side_menu_type','group'));?>
+<?=Theme::Render('radio','show_runtimeinfo','Показывать отладочную информацию',array(0=>'Нет',1=>'Да'),  Variable::Get('show_runtimeinfo',1));?>

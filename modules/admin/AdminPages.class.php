@@ -6,7 +6,9 @@ class AdminPages {
         global $pdo;
         $front = Variable::Get('site_frontpage');
         if (!$front)
-            return 'Благодарим за установку <b>Skobka.CMS</b><br>Если вы еще не авторизовались, перейдите в <a href="/user">центр пользователя</a>';
+            return '<p>Благодарим за установку <b>Skobka.CMS</b><br>Если вы еще не авторизовались, перейдите в <a href="/user">центр пользователя</a></p>'
+		    .'<p>За дополнительными <a href="http://skobkacms.ru/modules-list">модулями и <a href="http://skobkacms.ru/themes-list">темами</a> оформления обращайтесь на сайт <a href="http://skobkacms.ru">http://skobkacms.ru</a></p>'
+		    .'<p style="text-align:center"><b>Спасибо за Ваш интерес к SkobkaCMS</b></p>';
         else
             return Menu::Execute($front);
     }
@@ -219,5 +221,9 @@ class AdminPages {
     public static function RobotsFormSubmit(&$aResult){
         file_put_contents('robots.txt', $aResult['POST']['text']);
         Notice::Message('Файл '.Theme::Render('link','robots.txt','robotx.txt').' сохранен');
+    }
+    
+    public static function CheckUpdates(){
+	Path::Replace('http://skobkacms.ru/download');
     }
 }
