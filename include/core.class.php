@@ -241,7 +241,8 @@ class Core {
     public static function UpdateDatabase($cmsVersion, $startUpdateFromVersion, array $sql) {
         global $pdo;
         $ActualDbVersion = Variable::Get('ActualDbVersion',100);
-        Notice::Message($cmsVersion,$ActualDbVersion);
+	if(($ActualDbVersion - $cmsVersion) != 1)
+	    Notice::Message('База данных SkobkaCMS была обновлена с версии <b>'.$ActualDbVersion.'</b> до версии <b>'.$cmsVersion.'</b>');
         for ($currentVersion = 100; $currentVersion <= $cmsVersion; $currentVersion++) {
             if (!array_key_exists($currentVersion, $sql))
                 continue;
@@ -249,7 +250,7 @@ class Core {
                 continue;
             
             foreach ($sql[$currentVersion] as $query) {
-                Notice::Message('<b>Выполнен запрос:</b> ' . $query);
+                Notice::Message('<b>Обвновление. Выполнен запрос:</b> ' . $query);
                 $pdo->Query($query, array());
             }
         }

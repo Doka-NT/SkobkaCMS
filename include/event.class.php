@@ -35,8 +35,9 @@ class Event {
         if ($oEngine->modules)
             foreach ($oEngine->modules as $oModule) {
                 $attr = 'Event' . $sEvent;
-                if ($callback = $oModule->$attr)
-                    call_user_func_array($callback, array(&$arg));
+				if(property_exists($oModule,$attr)){
+                    call_user_func_array(($oModule->$attr), array(&$arg));
+				}
             }
 
         if (array_key_exists($sEvent, Event::$aCallStack))

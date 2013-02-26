@@ -7,7 +7,8 @@ class Block {
 	if(!$theme)
 	    $theme = $GLOBALS['theme'];
         $out = '';
-        $q = $pdo->query("SELECT * FROM blocks b WHERE b.position LIKE ? AND (b.theme LIKE ? OR b.theme LIKE '*'  ORDER BY b.weight", array($position,$theme));
+        //$q = $pdo->query("SELECT * FROM blocks b WHERE b.position LIKE ? AND (b.theme LIKE ? OR b.theme LIKE '*')  ORDER BY b.weight", array($position,$theme));
+	$q = $pdo->query("SELECT * FROM blocks b WHERE b.position LIKE ? ORDER BY b.weight", array($position));
         while ($block = $pdo->fetch_object($q)) {
             if (($aBlocks[$block->block_id]) && Block::Visible($block)) {
                 $_block = $aBlocks[$block->block_id];

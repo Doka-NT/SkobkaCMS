@@ -42,11 +42,11 @@
                 </div>
             </div>
             <?if($GLOBALS['user']->uid == 1):?>
-            
                 <div style="clear:both;padding:20px;border-top:1px solid #aaa;"><?=Admin::RuntimeInfo();?></div>
             <?endif;?>
             <div class="footer">
                 <?= $footer; ?>
+		<div class="copyright" style="text-align: right;position: absolute;right: 20px;top: 10px;"><a href="http://skobkacms.ru" target="_blank">Powered by SkobkaCMS</a></div>
             </div>
         </div>
         <?= $absolute; ?>

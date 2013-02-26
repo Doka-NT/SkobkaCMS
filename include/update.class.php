@@ -3,7 +3,7 @@
 class Update {
     public static function Save($module,$version){
 	global $pdo;
-	$pdo->query("DELETE FROM updates WHERE module = ?");
+	$pdo->query("DELETE FROM updates WHERE module = ?",array($module));
 	$pdo->insert("updates",array(
 	    'module'=>$module,
 	    'version'=>$version,

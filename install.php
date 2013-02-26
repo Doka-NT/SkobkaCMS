@@ -20,6 +20,35 @@ function check_param($bool){
 function get_mode_rewrite(){
 	return $_SERVER['HTTP_MOD_REWRITE'] == 'On'?true:false;
 }
+
+function _error($errno, $errstr, $errfile, $errline){
+if($errno == E_NOTICE)
+	return;
+switch ($errno) {
+    case E_USER_ERROR:
+        echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
+        echo "  Фатальная ошибка в строке $errline файла $errfile";
+        echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+        echo "Завершение работы...<br />\n";
+        exit(1);
+        break;
+
+    case E_USER_WARNING:
+        echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
+        break;
+
+    case E_USER_NOTICE:
+        //echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+        break;
+
+    default:
+        echo "Неизвестная ошибка: [$errno] $errstr<br />\n";
+		echo "<pre>".print_r(debug_backtrace(),1).'</pre>';
+        break;
+    }
+	return true;
+}
+set_error_handler('_error');
 ?><!DOCTYPE html>
 <html>
 	<head>
@@ -271,7 +300,18 @@ INSERT INTO `variables` (`var_id`, `name`, `value`) VALUES
 INSERT INTO `user_groups` (`gid`, `name`, `rules`) VALUES
 (1, 'Гости', 'YToxOntpOjA7czoyNzoi0J7QsdGL0YfQvdGL0Lkg0LTQvtGB0YLRg9C/Ijt9'),
 (2, 'Авторизованные', 'YToxOntpOjA7czoyNzoi0J7QsdGL0YfQvdGL0Lkg0LTQvtGB0YLRg9C/Ijt9');");
-                                                                
+								query("
+INSERT INTO `content_type` (`type_id`, `type`, `name`, `description`) VALUES
+(1, 'page', 'Страница', 'Простая статическая страница сайта');								    
+");
+								query("
+INSERT INTO `menu` (`menu_id`, `title`) VALUES
+(1, 'Главное меню');								    
+");
+								query("
+INSERT INTO `menu_items` (`menu_item_id`, `title`, `path`, `menu_id`, `parent`, `weight`) VALUES
+(1, 'Перейти на главную', '/', 1, 0, 0);								    
+");
 							}
 							catch (PDOException $e){
 								set_error($e->getMessage());
@@ -294,6 +334,7 @@ INSERT INTO `user_groups` (`gid`, `name`, `rules`) VALUES
 								
 								$pdo->query("UPDATE blocks SET theme = '*' WHERE bid = 1",array());
 							}catch(Exception $e){
+								debug_print_backtrace();
 								set_error($e->getMessage());
 							}
 						?>
